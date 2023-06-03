@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-fern-100" style="font-family: 'Inter', sans-serif;">
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fern': {
+                            '50': '#f0f9f2',
+                            '100': '#d9f2dd',
+                            '200': '#b7e3c1',
+                            '300': '#87ce9b',
+                            '400': '#64b97e',
+                            '500': '#339654',
+                            '600': '#237842',
+                            '700': '#1c6037',
+                            '800': '#184d2d',
+                            '900': '#153f26',
+                            '950': '#0b2315',
+                        },
+
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    {% block content %}{% endblock %}
+</body>
+
+</html>
