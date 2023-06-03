@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}onboarding{% endblock %}
+
+{% block content %}
+
+
+<div class="px-8 mx-auto container">
+    <p class="text-2xl mt-16 mb-2 font-bold">
+        First things first...
+    </p>
+
+    <form>
+        <div>
+            <label class="mb-4 block" for="zip">We need your ZIP code to find the best deals near you!</label>
+            <input class="focus:ring-4 focus:ring-fern-300 w-36 rounded-lg" type="text" name="zip">
+        </div>
+
+        <input type="button"
+            class="mt-4 focus:outline-none text-white bg-fern-700 hover:bg-fern-800 focus:ring-4 focus:ring-fern-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+            value="Next">
+    </form>
+
+</div>
+
+
+{% endblock %}

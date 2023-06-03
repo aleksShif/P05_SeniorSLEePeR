@@ -13,6 +13,10 @@ def login():
 def register():
     return render_template("register.html")
 
+@app.route("/onboarding")
+def onboarding():
+    return render_template("onboarding-stores.html")
+
 if __name__ == "__main__":
     app.debug = True
     app.run()

@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}login{% endblock %}
+
+
+{% block head_script %}
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="px-8 mx-auto container flex flex-col h-[calc(100vh-72px)]">
+    <p class="text-2xl mt-16 mb-2 font-bold">
+        One more thing...
+    </p>
+
+    <div class="mb-4">Choose the stores you shop at!</div>
+
+
+    <div class="w-full flex flex-col md:flex-row border-2 border-fern-600 grow">
+        <div class="basis-1/2 border-t-2 md:border-t-0 md:border-r-2 border-fern-600">
+            <div class="">
+                <div class="py-4 pl-4 text-xl font-medium bg-fern-200">
+                    Store List
+                </div>
+                <div id="stores"></div>
+            </div>
+        </div>
+        <div id="map" class="order-first md:order-last basis-1/2"></div>
+    </div>
+
+        <input type="button"
+            class="w-fit mt-4 focus:outline-none text-white bg-fern-700 hover:bg-fern-800 focus:ring-4 focus:ring-fern-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+            value="Next">
+    <div class="h-16"></div>
+</div>
+
+
+<script>
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v11',
+        center: [-74.0060, 40.7128],
+        zoom: 10,
+        accessToken: "pk.eyJ1IjoicnlhbmxhdSIsImEiOiJjbGNkaTl6MjAxN2VxM3BwNHpseXYxN3BtIn0.NSi2H99_zl3PfrdhjGp6AA",
+        maxBounds: [
+            [-74.0060 - 0.4, 40.7128 - 0.4],
+            [-74.0060 + 0.4, 40.7128 + 0.4],
+        ]
+    });
+</script>
+
+
+{% endblock %}
