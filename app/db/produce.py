@@ -7,7 +7,7 @@ def create_produce_table():
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create it
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
     # produce table
-    c.execute("CREATE TABLE IF NOT EXISTS produce(id INTEGER PRIMARY KEY, product_name TEXT, img_url TEXT, weight FLOAT, price FLOAT, store_name TEXT, store_loc TEXT)")
+    c.execute("CREATE TABLE IF NOT EXISTS produce(id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, img_url TEXT, weight FLOAT, price FLOAT, store_name TEXT, store_loc TEXT)")
 
     db.commit() #save changes
     db.close()  #close database

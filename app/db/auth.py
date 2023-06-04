@@ -7,7 +7,7 @@ except:
 def create_users_cart_table(): 
     #db.query_db("DROP TABLE IF EXISTS users;")
     query_db("CREATE TABLE IF NOT EXISTS users(username TEXT PRIMARY KEY, password TEXT)")
-    query_db("CREATE TABLE IF NOT EXISTS cart(username TEXT, id INTEGER)")
+    query_db("CREATE TABLE IF NOT EXISTS cart(username TEXT, id INTEGER, quantity INTEGER)")
 
 def add_new_user(username, password): 
     query_db("INSERT INTO users VALUES (?, ?);", (username, password))
