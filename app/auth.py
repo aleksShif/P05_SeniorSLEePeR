@@ -31,10 +31,12 @@ def get_user_password(username):
     return password
 
 # LINES BELOW ONLY GET RUN IF "EXPLICITY RAN" with `python3 app/db/auth.py`
-if __name__ == "__main__":
-    create_users_cart_table()
-    print(check_username_availability("epap"))
-    add_new_user("epap", "hi")
-    print(check_creds("epap", "hi"))
-    print(check_creds("epap", "hi2"))
-    print(check_username_availability("epap"))
+# if __name__ == "__main__":
+#     create_users_cart_table()
+#     print(check_username_availability("epap"))
+#     add_new_user("epap", "hi")
+#     print(check_creds("epap", "hi"))
+#     print(check_creds("epap", "hi2"))
+#     print(check_username_availability("epap"))
+
+create_users_cart_table()

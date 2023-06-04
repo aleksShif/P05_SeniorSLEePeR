@@ -6,7 +6,7 @@ def get_connection(db):
 
 
 def query_db(query, args=(), all=False):
-    conn = get_connection("P4.db")
+    conn = get_connection("P5.db")
 
     with conn:
         cur = conn.cursor()
