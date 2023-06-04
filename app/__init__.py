@@ -19,7 +19,7 @@ def onboarding():
 
 @app.route("/catalog")
 def catalog():
-    return render_template("catalog.html")
+    return render_template("catalog.html", logged_in=True)
 
 if __name__ == "__main__":
     app.debug = True
