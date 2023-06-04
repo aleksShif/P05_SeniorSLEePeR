@@ -22,11 +22,11 @@
 
     <div class="w-full flex flex-col md:flex-row border-2 border-fern-600 grow">
         <div class="basis-1/2 border-t-2 md:border-t-0 md:border-r-2 border-fern-600">
-            <div class="">
-                <div class="py-4 pl-4 text-xl font-medium bg-fern-200">
+            <div class="flex flex-col md:max-h-[calc(100vh-348px)] max-h-[calc(100vh-650px)] ">
+                <div class="py-4 pl-4 font-medium bg-fern-200">
                     Store List
                 </div>
-                <div id="stores" class="md:max-h-[calc(100vh-404px)] max-h-[calc(100vh-690px)] overflow-y-scroll">
+                <div id="stores" class="overflow-y-scroll">
                     <div class="h-[400px]">hi</div>
                     <div class="h-[400px]">hi</div>
                     <div class="h-[400px]">hi</div>
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div id="map" class="shrink-0 max-h-[300px] md:max-h-none order-first md:order-last basis-1/2"></div>
+        <div id="map" class="min-h-[300px] max-h-[300px] md:max-h-none order-first md:order-last basis-1/2"></div>
     </div>
 
         <input type="button"
@@ -60,6 +60,12 @@
             [-74.0060 + 0.4, 40.7128 + 0.4],
         ]
     });
+
+    // disable map rotation using right click + drag
+    map.dragRotate.disable();
+
+    // disable map rotation using touch rotation gesture
+    map.touchZoomRotate.disableRotation();
 </script>
 
 
