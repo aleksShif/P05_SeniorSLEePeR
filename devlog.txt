@@ -1,1 +1,20 @@
-devlog for final projecttt
+Senior SLEePeR Pick:
+Sasha Shifrina, Ryan Lau, Lauren Lee, Elizabeth Paperno
+pd 7
+
+PROJ 05 - Produce Picker
+ ______   ______   __   __   __       ______   _______
+/_____/\ /_____/\ /_/\ /_/\ /_/\     /_____/\ /______/\
+\:::_ \ \\::::_\/_\:\ \\ \ \\:\ \    \:::_ \ \\::::__\/__
+ \:\ \ \ \\:\/___/\\:\ \\ \ \\:\ \    \:\ \ \ \\:\ /____/\
+  \:\ \ \ \\::___\/_\:\_/.:\ \\:\ \____\:\ \ \ \\:\\_  _\/
+   \:\/.:| |\:\____/\\ ..::/ / \:\/___/\\:\_\ \ \\:\_\ \ \
+    \____/_/ \_____\/ \___/_/   \_____\/ \_____\/ \_____\/
+==============================================================
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+elizabethP -- 2023-06-03 23:08
+--------------------------------------------------------------
+- add query_db func to make working with sqlite cleaner
+- add all functions for interacting with user table --> TESTED
+- add all functions that i could think for interacting with cart --> NOT TESTED

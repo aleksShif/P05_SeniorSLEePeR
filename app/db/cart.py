@@ -47,6 +47,9 @@ def get_list_stores(username):
         return query_db('SELECT store_name FROM produce WHERE id = ?;', (id, ))[0]
     return stores
 
+# forgot, add later
+# def updateQuantity()
+
 # CART SUMMARY
 def get_total_price(username):
     ids = get_list_ids_user(username)
