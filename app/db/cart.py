@@ -4,6 +4,9 @@ try:
 except:
     from db import query_db
 
+# NOT TESTED
+
+# CART ITSELF
 def get_list_ids_user(username):
     conn = sqlite3.connect("P5.db")
     cur = conn.cursor()
@@ -37,6 +40,14 @@ def get_list_product_imgs(username):
         return query_db('SELECT img_url FROM produce WHERE id = ?;', (id, ))[0]
     return imgs 
 
+def get_list_stores(username):
+    ids = get_list_ids_user(username)
+    stores = []
+    for store in stores: 
+        return query_db('SELECT store_name FROM produce WHERE id = ?;', (id, ))[0]
+    return stores
+
+# CART SUMMARY
 def get_total_price(username):
     ids = get_list_ids_user(username)
     running_tot = 0
@@ -44,4 +55,26 @@ def get_total_price(username):
        tup = get_list_tuples_itemprice_quantity_totalprice(username,id)
        running_tot += tup[2]
     return running_tot
- 
+
+# return {store name: number of items, ...}
+def get_dict_store_numitems(username): 
+    ids = get_list_ids_user(username)
+    names = []
+    num_items = []
+    dict = {}
+
+    for id in ids: 
+        names.append(query_db('SELECT store_name FROM produce WHERE id = ?;', (id, ))[0])
+
+    for store in names: 
+        num_items.append(names.count(store))
+    
+    for key in names:
+        if key not in names.keys():
+            for value in num_items:
+                dict[key] = value
+
+    return dict
+    
+
+

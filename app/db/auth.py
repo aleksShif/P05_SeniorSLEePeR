@@ -3,7 +3,7 @@ try:
 except:
     from db import query_db
 
-#add other cols later
+# TESTED
 def create_users_cart_table(): 
     #db.query_db("DROP TABLE IF EXISTS users;")
     query_db("CREATE TABLE IF NOT EXISTS users(username TEXT PRIMARY KEY, password TEXT)")
