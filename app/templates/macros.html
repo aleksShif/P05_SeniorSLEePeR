@@ -1,0 +1,28 @@
+{% macro catalog_category(category_name, category_slug) -%}
+    <div>
+        <div class="flex mb-2">
+            <p class="text-xl font-bold">{{category_name}}</p>
+            <div class="grow"></div>
+            <a tabindex="-1" class="underline" href="/catalog/{{category_slug}}">View all</a>
+        </div>
+        <div class="overflow-x-scroll max-w-full mb-4 flex gap-8">
+            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
+            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
+            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
+            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
+            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
+            <button 
+            onclick="location.href='/catalog/{{category_slug}}'"
+            tabindex="-1"
+            class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg flex flex-col">
+                <div class="grow"></div>
+                <div class="w-full">
+                    <p class="text-center">
+                        View all
+                    </p>
+                </div>
+                <div class="grow"></div>
+            </button>
+        </div>
+    </div>
+{%- endmacro %}

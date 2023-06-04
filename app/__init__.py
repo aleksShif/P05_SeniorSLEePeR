@@ -17,6 +17,10 @@ def register():
 def onboarding():
     return render_template("onboarding-stores.html")
 
+@app.route("/catalog")
+def catalog():
+    return render_template("catalog.html")
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
