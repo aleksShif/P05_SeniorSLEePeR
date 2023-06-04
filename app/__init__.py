@@ -23,7 +23,7 @@ def login():
             session['username'] = request.form['username']
             return redirect(url_for('catalog'))
         return render_template('login.html', error="Wrong username and password")
-    return render_template("login.html")
+    return render_template("login.html", error='')
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -43,16 +43,13 @@ def register():
             session['username'] = new_user
             return redirect(url_for('catalog'))
 
-        # if check_username_availability(new_user):
-        #     return redirect(url_for("register"))
-
         return redirect(url_for("register"))
     return render_template("register.html")
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect(url_for('root'))
+    return redirect(url_for('login'))
 
 @app.route("/onboarding")
 def onboarding():
