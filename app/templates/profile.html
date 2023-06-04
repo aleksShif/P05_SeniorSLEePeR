@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}Onboarding{% endblock %}
+
+{% block content %}
+
+
+<div class="px-8 mx-auto container">
+    <div>
+
+
+    <p class="text-2xl mt-16 mb-2 font-bold">
+        Profile
+    </p>
+    </div>
+
+    
+    <!-- <div>
+        <p class="mb-8">
+            Manage your account
+        </p>
+    </div> -->
+
+
+    <form>
+        <div>
+            <label class="mb-2 block font-medium" for="username">Username</label>
+            <input disabled class="disabled:opacity-75 focus:ring-4 focus:ring-fern-300 w-36 rounded-lg w-[300px]" type="text" name="username" value="ryan">
+        </div>
+        <div>
+            <label class="mt-4 mb-2 block font-medium" for="password">New Password</label>
+            <input class="disabled:opacity-75 focus:ring-4 focus:ring-fern-300 w-36 rounded-lg w-[300px] " type="password" name="password" >
+        </div>
+        <div>
+            <label class="mt-4 mb-2 block font-medium" for="confirm-password">Confirm Password</label>
+            <input class="disabled:opacity-75 focus:ring-4 focus:ring-fern-300 w-36 rounded-lg w-[300px]" type="password" name="confirm-password" >
+        </div>
+
+        <input type="button"
+            class="mt-4 focus:outline-none text-white bg-fern-700 hover:bg-fern-800 focus:ring-4 focus:ring-fern-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+            value="Update Password">
+
+
+        <!-- <input type="button"
+            class="mt-4 focus:outline-none text-white bg-fern-700 hover:bg-fern-800 focus:ring-4 focus:ring-fern-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+            value="Manage Stores"> -->
+
+        <input onclick="location.href='/logout'" type="button" class="mt-4 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" value="Logout">
+
+    </form>
+
+</div>
+
+
+{% endblock %}

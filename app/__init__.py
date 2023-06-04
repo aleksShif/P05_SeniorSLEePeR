@@ -57,13 +57,17 @@ def onboarding():
 
 @app.route("/catalog")
 def catalog():
-    logged_in = False
-    session_username = ""
+    if 'username' not in session:
+        return redirect(url_for("root"))
+    return render_template("catalog.html", logged_in=True)
 
-    if 'username' in session:
-        logged_in = True
-        session_username = session['username']
-    return render_template("catalog.html")
+
+@app.route("/profile")
+def profile():
+    if 'username' not in session:
+        return redirect(url_for("login"))
+
+    return render_template("profile.html", logged_in=True)
 
 
 @app.errorhandler(404)
