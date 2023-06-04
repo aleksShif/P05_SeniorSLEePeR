@@ -6,7 +6,6 @@ def getData():
     response = requests.get(url).text
     response = response[16296:]
     response = response[:-187]
-    reponse = "" + response + "]"
     data = json.loads(response)
     return type(data[0])
 
