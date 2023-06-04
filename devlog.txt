@@ -18,3 +18,9 @@ elizabethP -- 2023-06-03 23:08
 - add query_db func to make working with sqlite cleaner
 - add all functions for interacting with user table --> TESTED
 - add all functions that i could think for interacting with cart --> NOT TESTED
+
+sashaS -- 2023-06-04 16:24 
+--------------------------------------------------------------
+- modified __init__.py for redirecting login and register page to catalog 
+- logout button that redirects back to login 
+- username and password strength checks (created input_check.py) 
