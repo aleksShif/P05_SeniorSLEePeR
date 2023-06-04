@@ -39,9 +39,13 @@
 <body>
 <div class="bg-fern-200">
     <div class="text-fern-600 text-4xl container mx-auto px-8  py-4 ">
-        <a href="/">
+        <a class="focus:ring-4 focus:outline-none focus:ring-fern-400 rounded-lg" href="/">
             🥦
         </a>
+
+        {% if logged_in %}
+            <p>hello</p>
+        {% endif %}
     </div>
 </div>
 
