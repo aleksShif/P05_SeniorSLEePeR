@@ -21,6 +21,17 @@ def onboarding():
 def catalog():
     return render_template("catalog.html", logged_in=True)
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error.html', error_code=404, error_message="Sorry, we got lost in the aisles."), 404
+
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('error.html', error_code=500, error_message="Uh oh, something went wrong."), 404
+
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
