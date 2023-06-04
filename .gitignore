@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
 # C extensions
 *.so
 
@@ -19,6 +18,7 @@ lib64/
 parts/
 sdist/
 var/
+venv/
 wheels/
 *.egg-info/
 .installed.cfg
