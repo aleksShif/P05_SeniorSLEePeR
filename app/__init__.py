@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from auth import *
 from cart import *
 from db import * 
@@ -22,8 +22,11 @@ def login():
         if check_creds(username, password):
             session['username'] = request.form['username']
             return redirect(url_for('catalog'))
-        return render_template('login.html', error="Wrong username and password")
-    return render_template("login.html", error='')
+        
+        flash('Invalid credentials')
+        return render_template('login.html')
+
+    return render_template("login.html")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -36,6 +39,7 @@ def register():
         new_pass_confirm = request.form['new_password_confirm']
 
         if not new_pass == new_pass_confirm:
+            flash('Passwords do not match')
             return redirect(url_for("register"))
 
         if check_username_requirements(new_user) and check_password_requirements(new_pass) and check_username_availability(new_user):
@@ -43,7 +47,14 @@ def register():
             session['username'] = new_user
             return redirect(url_for('catalog'))
 
+        if not check_username_requirements(new_user):
+            flash("Username has to be 4 characters or longer")
+
+        if not check_password_requirements(new_pass):
+            flash("Password has to be 4 characters or longer")
+
         return redirect(url_for("register"))
+
     return render_template("register.html")
 
 @app.route('/logout')
