@@ -2,7 +2,7 @@ import sqlite3
 
 
 def create_produce_table():
-    DB_FILE="P5.db"
+    DB_FILE="produce.db"
 
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create it
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
@@ -14,7 +14,7 @@ def create_produce_table():
 
 
 def insert_produce(produce, img_url, weight, price, store, store_loc):
-    DB_FILE="P5.db"
+    DB_FILE="produce.db"
 
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
@@ -22,16 +22,16 @@ def insert_produce(produce, img_url, weight, price, store, store_loc):
     c.execute("INSERT INTO produce(product_name, img_url, weight, price, store_name, store_loc) VALUES (?,?,?,?,?,?)", (produce, img_url, weight, price, store, store_loc))
     
     #prints table
-    table = c.execute("SELECT * from produce")
-    print("user table from add_user() call")
-    print(table.fetchall())
+    # table = c.execute("SELECT * from produce")
+    # print("user table from add_user() call")
+    # print(table.fetchall())
 
     db.commit() #save changes
     db.close()  #close database
 
 def display_produce():
 
-    DB_FILE="P5.db"
+    DB_FILE="produce.db"
 
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
