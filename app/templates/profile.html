@@ -22,7 +22,7 @@
     </div> -->
 
 
-    <form>
+    <form action="/profile" method="POST">
         <div>
             <label class="mb-2 block font-medium" for="username">Username</label>
             <input disabled class="disabled:opacity-75 focus:ring-4 focus:ring-fern-300 w-36 rounded-lg w-[300px]" type="text" name="username" value="{{username}}">
@@ -36,7 +36,7 @@
             <input class="disabled:opacity-75 focus:ring-4 focus:ring-fern-300 w-36 rounded-lg w-[300px]" type="password" name="confirm-password" >
         </div>
 
-        <input type="button"
+        <input type="submit"
             class="mt-4 focus:outline-none text-white bg-fern-700 hover:bg-fern-800 focus:ring-4 focus:ring-fern-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
             value="Update Password">
 

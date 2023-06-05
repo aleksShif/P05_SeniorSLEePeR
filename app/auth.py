@@ -21,7 +21,10 @@ def check_creds(username, password):
     return user is not None
 
 def update_user_password(username, new_password):
-    query_db("UPDATE users SET password = ? WHERE username = ?", (username, password))
+    # query_db("UPDATE users SET password = ? WHERE username = ?", (username, new_password))
+    query_db("DELETE FROM users WHERE username = ?", (username,))
+    add_new_user(username, new_password)
+
 
 def delete_user(username):
     query_db("DELETE FROM users WHERE username = ?", (username))
