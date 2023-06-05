@@ -67,7 +67,9 @@ def profile():
     if 'username' not in session:
         return redirect(url_for("login"))
 
-    return render_template("profile.html", logged_in=True)
+    username = session.get("username")
+
+    return render_template("profile.html", logged_in=True, username=username)
 
 
 @app.errorhandler(404)
