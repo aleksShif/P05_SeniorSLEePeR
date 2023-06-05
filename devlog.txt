@@ -13,14 +13,50 @@ PROJ 05 - Produce Picker
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+
+ryanL -- 2023-06-03 10:39
+--------------------------------------------------------------
+- landing, login, and register pages
+- change scrollbar
+
+ryanL -- 2023-06-03 18:09
+--------------------------------------------------------------
+- onboarding pages
+
+ryanL -- 2023-06-03 23:20
+--------------------------------------------------------------
+- small ui changes to pages
+
 elizabethP -- 2023-06-03 23:08
 --------------------------------------------------------------
 - add query_db func to make working with sqlite cleaner
 - add all functions for interacting with user table --> TESTED
 - add all functions that i could think for interacting with cart --> NOT TESTED
 
+ryanL -- 2023-06-04 09:56
+--------------------------------------------------------------
+- catalog pages
+- update page titles
+- cart and profile buttons on header
+- not ugly error pages
+
+ryanL -- 2023-06-04 16:12
+--------------------------------------------------------------
+- keyfood store and products scraper
+- wfm store scraper
+
 sashaS -- 2023-06-04 16:24 
 --------------------------------------------------------------
 - modified __init__.py for redirecting login and register page to catalog 
 - logout button that redirects back to login 
 - username and password strength checks (created input_check.py) 
+
+ryanL -- 2023-06-04 18:07
+--------------------------------------------------------------
+- start on profile page
+
+sashaS,  ryanL, laurenL, elizabethP -- 2023-06-04 19:00
+--------------------------------------------------------------
+- overall feedback was positive nothing 
+- specified usecase for mapbox api
+- updated database structure 
