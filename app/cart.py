@@ -36,21 +36,31 @@ def get_list_tuples_itemprice_quantity_totalprice(username):
 def get_list_product_imgs(username):
     ids = get_list_ids_user(username)
     imgs = []
-    for img in imgs: 
-        return query_db('SELECT img_url FROM produce WHERE id = ?;', (id, ))[0]
+    for id in ids: 
+        imgs.append(query_db('SELECT img_url FROM produce WHERE id = ?;', (id, ))[0])
     return imgs 
-
-def get_list_stores(username):
-    ids = get_list_ids_user(username)
-    stores = []
-    for store in stores: 
-        return query_db('SELECT store_name FROM produce WHERE id = ?;', (id, ))[0]
-    return stores
 
 # forgot, add later
 # def updateQuantity()
 
 # CART SUMMARY
+
+def get_list_store_names(username):
+    ids = get_list_ids_user(username)
+    stores = []
+    for id in ids: 
+        store_id = query_db('SELECT store_id FROM produce WHERE id = ?;', (id, ))[0]
+        store_name = query_db('SELECT retailer FROM stores WHERE id = ?;', (store_id, ))[0]
+        stores.append(store_name)
+    return stores
+
+def get_list_store_ids(username):
+    ids = get_list_ids_user(username)
+    stores = []
+    for id in ids: 
+        stores.append(query_db('SELECT store_id FROM produce WHERE id = ?;', (id, ))[0])
+    return stores
+
 def get_total_price(username):
     ids = get_list_ids_user(username)
     running_tot = 0
@@ -60,7 +70,9 @@ def get_total_price(username):
     return running_tot
 
 # return {store name: number of items, ...}
-def get_dict_store_numitems(username): 
+'''
+def get_store_numitems(username): 
+    
     ids = get_list_ids_user(username)
     names = []
     num_items = []
@@ -76,8 +88,15 @@ def get_dict_store_numitems(username):
         if key not in names.keys():
             for value in num_items:
                 dict[key] = value
-
-    return dict
     
+    return dict
+    '''
+    
+def get_num_unique_stores(username): 
+    store_ids = get_list_store_ids(username)
+    num_unique = len(set(store_ids))
+    return num_unique
 
-
+'''
+def get_num_items_names_store
+'''
