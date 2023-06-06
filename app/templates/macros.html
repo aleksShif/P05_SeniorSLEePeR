@@ -6,12 +6,12 @@
             <a tabindex="-1" class="underline" href="/catalog/{{category_slug}}">View all</a>
         </div>
         <div class="overflow-x-scroll max-w-full mb-4 flex gap-8">
-            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
-            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
-            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
-            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
-            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
-            <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
+            {{catalog_item()}}
+            {{catalog_item()}}
+            {{catalog_item()}}
+            {{catalog_item()}}
+            {{catalog_item()}}
+            {{catalog_item()}}
             <button 
             onclick="location.href='/catalog/{{category_slug}}'"
             tabindex="-1"
@@ -26,4 +26,9 @@
             </button>
         </div>
     </div>
+{%- endmacro %}
+
+
+{% macro catalog_item() -%}
+    <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
 {%- endmacro %}

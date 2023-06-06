@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash, abort
 from auth import *
 from cart import *
 from db import * 
@@ -7,6 +7,16 @@ from input_check import *
 
 app = Flask(__name__)
 app.secret_key = b'pAHy827suhda*216jdaa'
+
+
+categories = {
+    "produce": "Produce", 
+    "dairy_and_eggs": "Dairy & Eggs", 
+    "meat": "Meat", 
+    "pantry": "Pantry", 
+    "seafood": "Seafood", 
+    "beverages": "Beverages"
+}
 
 @app.route("/")
 def root():
@@ -75,24 +85,73 @@ def catalog():
     return render_template("catalog.html", logged_in=True)
 
 
-@app.route("/profile")
+@app.route("/profile", methods=['GET', 'POST'])
 def profile():
     if 'username' not in session:
         return redirect(url_for("login"))
 
     username = session.get("username")
 
+    if request.method == 'POST':  
+        new_pass = request.form['password']
+        new_pass_confirm = request.form['confirm-password']
+
+        if not new_pass == new_pass_confirm:
+            flash('Passwords do not match')
+            return redirect(url_for("profile"))
+
+        if check_password_requirements(new_pass):
+            update_user_password(username, new_pass)
+            return redirect(url_for('catalog'))
+
+        if not check_password_requirements(new_pass):
+            flash("Password has to be 4 characters or longer")
+
+        return redirect(url_for("profile"))
+
     return render_template("profile.html", logged_in=True, username=username)
+
+
+@app.route('/catalog/<category>')
+def catalog_with_category(category):
+    if 'username' not in session:
+        return redirect(url_for("root"))
+
+    if category not in categories.keys():
+        abort(404)
+
+    page = request.args.get('page', "1")
+    print(page)
+
+    return render_template("category.html", category_slug=category, category=categories[category], logged_in=True)
+
+
+@app.route('/cart')
+def cart():
+    if 'username' not in session:
+        return redirect(url_for("root"))
+
+    return render_template("cart.html", username=session.get("username"), logged_in=True)
+
+@app.route("/catalog/search")
+@app.route("/catalog/<category>/search")
+def search(category="all"):
+    if 'username' not in session:
+        return redirect(url_for("root"))
+
+    print(category)
+
+    return render_template("search.html", logged_in=True)
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('error.html', error_code=404, error_message="Sorry, we got lost in the aisles."), 404
+    return render_template('error.html', error_code=404, error_message="Sorry, we got lost in the aisles.", logged_in="username" in session), 404
 
 
 @app.errorhandler(500)
 def page_not_found(e):
-    return render_template('error.html', error_code=500, error_message="Uh oh, something went wrong."), 500
+    return render_template('error.html', error_code=500, error_message="Uh oh, something went wrong.", logged_in="username" in session), 500
 
 
 if __name__ == "__main__":
