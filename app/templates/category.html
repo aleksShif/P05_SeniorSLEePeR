@@ -9,7 +9,7 @@
     <div class="container px-8 mt-16 mx-auto">
         <div>
             <label class="font-bold text-2xl">Search</label>
-            <form action="/catalog/search" method="get">
+            <form action="{{category_slug}}/search" method="get">
 
                 <div class="flex mt-2">
                     <input tabindex="1" placeholder="🍍, 🥕, 🥦, and more"
@@ -23,17 +23,22 @@
 
         <div class="mt-8 mb-20">
             <div>
-                <p class="font-bold text-2xl mb-4">Catalog</p>
+                <p class="font-bold text-2xl mb-4">{{category}}</p>
             </div>
 
-            <div>
-                {{macros.catalog_category('Produce', 'produce')}}
-                {{macros.catalog_category('Dairy & Eggs', 'dairy_and_eggs')}}
-                {{macros.catalog_category('Meat', 'meat')}}
-                {{macros.catalog_category('Pantry', 'pantry')}}
-                {{macros.catalog_category('Seafood', 'seafood')}}
-                {{macros.catalog_category('Beverages', 'beverages')}}
+            <div class="grid justify-between gap-x-8 gap-y-10" style="grid-template-columns: repeat(auto-fill, 200px);">
+                {% for i in range(100) %} 
+                {{macros.catalog_item()}}
+                {%endfor%}
             </div>
+
+            <!-- <div class="flex w-full flex-wrap gap-8 place-content-between">
+                {% for i in range(100) %} 
+                {{macros.catalog_item()}}
+                {%endfor%}
+            </div> -->
+
+
         </div>
     </div>
 
