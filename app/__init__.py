@@ -117,7 +117,7 @@ def catalog_with_category(category):
     if 'username' not in session:
         return redirect(url_for("root"))
 
-    if category not in ["produce", "dairy_and_eggs", "meat", "pantry", "seafood", "beverages"]:
+    if category not in categories.keys():
         abort(404)
 
     page = request.args.get('page', "1")
