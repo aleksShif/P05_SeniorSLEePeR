@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import 
 
 
 def get_products_from_store(id):
@@ -40,6 +41,9 @@ def get_products_from_store(id):
             name = product.find(class_="product__name").get_text()
             price = product.find(class_="price").get_text()
             image = product.img.get("src")
+
+    # produce.insert_produce(name, None, image, None, None, price, "Key Food", id, None)
+    # produce, product_url, img_url, weight, quantity, price, store, store_id, category):
 
 
 get_products_from_store(1640)
