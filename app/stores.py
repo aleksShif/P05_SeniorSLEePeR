@@ -21,6 +21,8 @@ def add_keyfood_data(zip):
         query_db("INSERT INTO stores(retailer, retailer_id, lon, lat, address) VALUES (?,?,?,?,?)", (store.get("displayName"), store.get("name"), store.get("longitude"), store.get("latitude"), store.get("line1")))
     return list
 
+# def get_dict_name_address_lat_long():
+
 if __name__ == "__main__":
     print(get_stores_near_zip(10001))
     add_keyfood_data(10001)

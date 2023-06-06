@@ -60,3 +60,8 @@ sashaS,  ryanL, laurenL, elizabethP -- 2023-06-04 19:00
 - overall feedback was positive nothing 
 - specified usecase for mapbox api
 - updated database structure 
+
+elizabethP -- 2023-06-06 1:18
+--------------------------------------------------------------
+- update db stucture to include stores_list
+- read in keyfood stores data into stores table
