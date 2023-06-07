@@ -5,9 +5,24 @@ from db import *
 from produce import *
 from stores_list import * 
 from input_check import *
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = b'pAHy827suhda*216jdaa'
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        username = session.get("username")
+        if username is None:
+            return redirect("/")
+        
+        if get_onboarding_val(username) != -1:
+            return redirect("/onboarding")
+
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 categories = {
@@ -51,7 +66,7 @@ def register():
         new_pass = request.form['new_password']
         new_pass_confirm = request.form['new_password_confirm']
 
-        if not new_pass == new_pass_confirm:
+        if new_pass != new_pass_confirm:
             flash('Passwords do not match')
             return redirect(url_for("register"))
 
@@ -75,22 +90,46 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-@app.route("/onboarding")
+# temp solution
+@app.route("/setstores")
+def setstores():
+    if session.get("username") is None:
+        return redirect("/")    
+
+    username = session.get("username")
+    update_onboarding_val(username, -1)
+
+    return redirect("/")
+
+
+@app.route("/onboarding", methods=["GET", "POST"])
 def onboarding():
-    return render_template("onboarding-stores.html")
+    if session.get("username") is None:
+        return redirect("/")    
+
+    username = session.get("username")
+
+    if request.method == "POST":
+        if request.form.get("zip", None):
+            update_onboarding_val(username, 1)
+
+    if get_onboarding_val(username) == 0:
+        return render_template("onboarding-zip.html")
+    
+    if get_onboarding_val(username) == 1:
+        return render_template("onboarding-stores.html")
+    
+    return redirect("catalog")
 
 @app.route("/catalog")
+@login_required
 def catalog():
-    if 'username' not in session:
-        return redirect(url_for("root"))
     return render_template("catalog.html", logged_in=True)
 
 
 @app.route("/profile", methods=['GET', 'POST'])
+@login_required
 def profile():
-    if 'username' not in session:
-        return redirect(url_for("login"))
-
     username = session.get("username")
 
     if request.method == 'POST':  
@@ -114,10 +153,8 @@ def profile():
 
 
 @app.route('/catalog/<category>')
+@login_required
 def catalog_with_category(category):
-    if 'username' not in session:
-        return redirect(url_for("root"))
-
     if category not in categories.keys():
         abort(404)
 
@@ -128,20 +165,14 @@ def catalog_with_category(category):
 
 
 @app.route('/cart')
+@login_required
 def cart():
-    if 'username' not in session:
-        return redirect(url_for("root"))
-
     return render_template("cart.html", username=session.get("username"), logged_in=True)
 
 @app.route("/catalog/search")
 @app.route("/catalog/<category>/search")
+@login_required
 def search(category="all"):
-    if 'username' not in session:
-        return redirect(url_for("root"))
-
-    print(category)
-
     return render_template("search.html", logged_in=True)
 
 
