@@ -3,7 +3,7 @@ import requests
 import produce
 import sqlite3
 
-categories = ["Beverages", "wine-beer-spirits"]
+categories = ["Produce", "dairy-eggs", "Meat", "pantry-essentials", "breads-rolls-bakery", "supplements", "Seafood", "Beverages", "wine-beer-spirits"]
 def getData():
     for food in categories:
         x = 0
