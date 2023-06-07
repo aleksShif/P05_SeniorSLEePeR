@@ -14,7 +14,7 @@ def query_db(query, args=(), all=False):
         r = cur.fetchall()
     conn.close()
 
-    return (r[0] if r else None) if not all else r
+    return r
 
 DB_FILE = "P5.db"
 db = sqlite3.connect(DB_FILE, check_same_thread = False)
