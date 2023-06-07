@@ -3,6 +3,8 @@ try:
 except:
     from db import query_db
 
+import sys 
+
 # TESTED
 def create_users_cart_table(): 
     #db.query_db("DROP TABLE IF EXISTS users;")
@@ -17,8 +19,8 @@ def check_username_availability(username):
     return user is None
 
 def check_creds(username, password):
-    user = query_db("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
-    return user is not None
+    passw = query_db("SELECT password FROM users WHERE username = ?", (username,))
+    return (len(passw) != 0 and password == passw[0][0])
 
 def update_user_password(username, new_password):
     # query_db("UPDATE users SET password = ? WHERE username = ?", (username, new_password))
