@@ -43,3 +43,42 @@ def display_produce():
     db.commit() #save changes
     db.close()  #close database
 
+def check_duplicate(name, store):
+    DB_FILE="produce.db"
+
+    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
+
+    table = c.execute("SELECT * from produce WHERE product_name = ? AND store = ? ", (name, store))
+
+
+    if table.fetchall() == []:
+        return False
+    else:
+        return True
+    
+def update_duplicate(name, category):
+    DB_FILE="produce.db"
+
+    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
+
+    cat = c.execute("SELECT category from produce WHERE product_name = ?", (name,))
+
+    table = c.execute("UPDATE produce SET category = ? WHERE product_name = ?", (cat.fetchall()[0][0] + "," + category, name))
+   
+    db.commit() #save changes
+    db.close()  #close database
+
+def insert_duplicate(produce, product_url, img_url, weight, quantity, price, store, store_id, category):
+    if check_duplicate(produce, store):
+        update_duplicate(produce, category)
+    else:
+        insert_produce(produce, product_url, img_url, weight, quantity, price, store, store_id, category)
+# create_produce_table()
+# insert_produce("apple", None, None, None, None, None, "wholefoods", None, "fruit")
+# display_produce()
+# if check_duplicate("apple", "wholefoods"):
+#     update_duplicate("apple", "refrigerated")
+# display_produce()
+
