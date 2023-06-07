@@ -7,12 +7,12 @@ import sys
 
 # TESTED
 def create_users_cart_table(): 
-    #db.query_db("DROP TABLE IF EXISTS users;")
+    query_db("DROP TABLE IF EXISTS users;")
     query_db("CREATE TABLE IF NOT EXISTS users(username TEXT PRIMARY KEY, password TEXT, zip INT, onboarding INT)")
     query_db("CREATE TABLE IF NOT EXISTS cart(username TEXT, id INTEGER, quantity INTEGER)")
 
 def add_new_user(username, password, onboarding = 0): 
-    query_db("INSERT INTO users VALUES (?, ?, NULL, ?);", (username, password, onboarding))
+    query_db("INSERT INTO users(username, password, onboarding) VALUES (?, ?, ?);", (username, password, onboarding))
 
 def check_username_availability(username):
     user = query_db("SELECT * FROM users WHERE username = ?", (username,))
