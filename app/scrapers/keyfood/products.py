@@ -47,10 +47,34 @@ def get_products_from_store(id):
 
             for product in products:
                 name = product.find(class_="product__name").get_text()
-                price = product.find(class_="price").get_text()
+                price = product.find(class_="price").get_text().split()
                 image = product.img.get("src")
-                print(f"{name} - {price}")
-
+                url = product.find(class_="product-card-anchor no-link").get("href")
+                # print(f"{name} - {price}")
+                print(price[0])
+                if link == f"dept/dept-{id}-bakery" or link == f"dept/dept-{id}-pantry" or link == f"dept/dept-{id}-snacks":
+                    produce.insert_produce(name, f"https://www.keyfood.com/{url}", image, None, price[1], price[0], "Key Food", id, "Pantry")
+                if link == f"dept/dept-{id}-beverages":
+                    produce.insert_produce(name, f"https://www.keyfood.com/{url}", image, None, price[1], price[0], "Key Food", id, "Beverages")
+                if link == f"dept/dept-{id}-meatandseafood":
+                    if "fillet" in name.lower() or "tuna" in name.lower() or "salmon" in name.lower() or "season - " in name.lower() or "anchovies" in name.lower() or "sardine" in name.lower() or "octopus" in name.lower() or "lobster" in name.lower() or "crab" in name.lower():
+                        produce.insert_produce(name, f"https://www.keyfood.com/{url}", image, None, price[1], price[0], "Key Food", id, "Seafood")
+                    elif "meat" in name.lower() or "turkey" in name.lower() or "pork" in name.lower() or "chicken" in name.lower() or "beef" in name.lower() or "sausage" in name.lower() or "salami" in name.lower() or "ham" in name.lower() or "bacon" in name.lower() or "lamb" in name.lower() or "veal" in name.lower() or "steak" in name.lower() or "rib" in name.lower() or "brisket" in name.lower() or "bone" in name.lower() or "wing" in name.lower():
+                        produce.insert_produce(name, f"https://www.keyfood.com/{url}", image, None, price[1], price[0], "Key Food", id, "Meat")
+                    else:
+                        produce.insert_produce(name, f"https://www.keyfood.com/{url}", image, None, price[1], price[0], "Key Food", id, None)
+                if link == f"dept/dept-{id}-produce":
+                    produce.insert_produce(name, f"https://www.keyfood.com/{url}", image, None, price[1], price[0], "Key Food", id, "Produce")
+                if link == f"dept/dept-{id}-refridgerated":
+                    if "milk" in name.lower() or "yogurt" in name.lower() or "cheese" in name.lower() or "cream" in name.lower() or "butter" in name.lower() or "sour cream" in name.lower() or "egg" in name.lower() or "eggs" in name.lower() or "margarine" in name.lower() or "dannon" in name.lower() or "blue bonnet" in name.lower():
+                        produce.insert_produce(name, f"https://www.keyfood.com/{url}", image, None, price[1], price[0], "Key Food", id, "Dairy & Eggs")
+                    elif "meat" in name.lower() or "turkey" in name.lower() or "pork" in name.lower() or "chicken" in name.lower() or "beef" in name.lower() or "sausage" in name.lower() or "salami" in name.lower() or "ham" in name.lower() or "bacon" in name.lower() or "lamb" in name.lower() or "veal" in name.lower() or "steak" in name.lower() or "rib" in name.lower() or "brisket" in name.lower() or "bone" in name.lower() or "wing" in name.lower():
+                        produce.insert_produce(name, f"https://www.keyfood.com/{url}", image, None, price[1], price[0], "Key Food", id, "Meat")
+                    else:
+                        produce.insert_produce(name, f"https://www.keyfood.com/{url}", image, None, price[1], price[0], "Key Food", id, None)
+ 
+                
+# insert_produce(produce, product_url, img_url, weight, quantity, price, store, store_id, category)
         # produce.insert_produce(name, None, image, None, None, price, "Key Food", id, None)
         # produce, product_url, img_url, weight, quantity, price, store, store_id, category):
 
