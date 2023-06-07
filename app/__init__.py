@@ -9,6 +9,7 @@ from functools import wraps
 import stores
 import requests
 import math
+import json
 
 app = Flask(__name__)
 app.secret_key = b'pAHy827suhda*216jdaa'
@@ -128,9 +129,10 @@ def onboarding():
     
     if get_onboarding_val(username) == 1:
         zip = get_user_zip(username)
+        # TODO: CHANGE URL WHEN DEPLOYED
         stores = requests.get(f"http://127.0.0.1:5000/{url_for('store_search')}?zip={zip}").json()
 
-        return render_template("onboarding-stores.html", stores=stores)
+        return render_template("onboarding-stores.html", stores=stores, zip=zip)
     
     return redirect("catalog")
 
@@ -197,13 +199,46 @@ def store_search():
 
     store_list = stores.get_list_dict_id_address_lat_long()
 
-        
     for store in store_list:
         store.update({"dist":math.dist(coords, [store["lon"], store["lat"]])})
 
     store_list.sort(key=lambda store: store["dist"])
 
     return store_list[:100]
+
+
+@app.route("/api/stores/search.geojson")
+def store_search_geojson():
+    zip = request.args.get('zip')
+
+    # TODO: CHANGE URL WHEN DEPLOYED
+    stores = requests.get(f"http://127.0.0.1:5000/{url_for('store_search')}?zip={zip}").json()
+
+    features = []
+
+    for store in stores:
+        feature = {
+            'type': 'Feature',
+            'properties': {
+                'retailer': store["retailer"],
+                'address': store["address"],
+                'id': store["id"]
+            },
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [store["lon"], store["lat"]]
+            }
+        }
+        features.append(feature)
+        
+
+    geojson = {
+        'type': "FeatureCollection",
+        'features': features
+    }
+
+    return json.dumps(geojson)
+
 
 
 @app.errorhandler(404)
