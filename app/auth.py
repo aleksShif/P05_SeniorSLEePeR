@@ -53,4 +53,4 @@ def update_user_zip(username, new_zip):
 #     print(check_creds("epap", "hi2"))
 #     print(check_username_availability("epap"))
 
-create_users_cart_table()
+# create_users_cart_table()
