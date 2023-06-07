@@ -66,7 +66,7 @@ def get_list_store_ids():
 
 def get_list_dict_id_address_lat_long():
     ids = get_list_store_ids()
-    print(ids)
+    # print(ids)
     list = []
     for id in ids: 
         retailer = query_db("SELECT retailer FROM stores WHERE id = ?",(id,))[0]

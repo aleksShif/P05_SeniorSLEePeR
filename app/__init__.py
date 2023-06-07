@@ -10,6 +10,7 @@ import stores
 import requests
 import math
 import json
+import stores_list
 
 app = Flask(__name__)
 app.secret_key = b'pAHy827suhda*216jdaa'
@@ -99,14 +100,16 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-# temp solution
-@app.route("/setstores")
-def setstores():
-    if session.get("username") is None:
-        return redirect("/")    
-
+@app.route("/api/user/stores", methods=["GET", "POST"])
+def user_stores():
     username = session.get("username")
-    update_onboarding_val(username, -1)
+    if request.method == "POST":
+        store_ids = list(request.form.keys())
+    
+        for id in store_ids:
+            stores_list.add_store(username, id)
+
+        update_onboarding_val(username, -1)
 
     return redirect("/")
 
@@ -132,7 +135,10 @@ def onboarding():
         # TODO: CHANGE URL WHEN DEPLOYED
         stores = requests.get(f"http://127.0.0.1:5000/{url_for('store_search')}?zip={zip}").json()
 
-        return render_template("onboarding-stores.html", stores=stores, zip=zip)
+        resp = requests.get(f"https://api.mapbox.com/geocoding/v5/mapbox.places/{zip}.json?types=postcode&limit=1&access_token={mapbox_token}").json()
+        zip_coords = resp["features"][0]["center"]
+
+        return render_template("onboarding-stores.html", stores=stores, zip=zip, zip_lon=zip_coords[0], zip_lat=zip_coords[1])
     
     return redirect("catalog")
 

@@ -34,24 +34,27 @@
 {%- endmacro %}
 
 
-{% macro store(retailer, address) -%}
+{% macro store(retailer, address, address_2, id) -%}
 
-    <div class="w-full p-4 flex gap-2">
+    <div class="w-full p-4 gap-2" id={{id}}>
 
         <div>
-            <div class="text-lg font-bold">
+            <div class="text-lg font-bold items-center flex gap-2">
+                <p>
+                    {{retailer}}
+                </p>
 
-            {{retailer}}
+
+            <input class="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-fern-500 focus:ring-2 text-fern-600" enabled type="checkbox" name={{id}} >
+
             </div>
             
             <div>
             {{address}}
+            {{address_2}}
 
             </div>
         </div>
 
-        <div>
-            <input type="checkbox">
-        </div>
     </div>
 {%- endmacro %}

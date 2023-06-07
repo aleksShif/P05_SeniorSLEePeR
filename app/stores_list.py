@@ -20,6 +20,10 @@ def get_store_list_ids_user(username):
         formatted.append(i[0])
     return (formatted)
 
+def add_store(username, id):
+    query_db("INSERT INTO stores_list VALUES (?, ?);", (username, id))
+
+
 # def get_stores_list_ids(user):
 #     id_list = get_store_list_ids_user(user)
 #     conn = sqlite3.connect("P5.db") 
