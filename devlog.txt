@@ -60,3 +60,21 @@ sashaS,  ryanL, laurenL, elizabethP -- 2023-06-04 19:00
 - overall feedback was positive nothing 
 - specified usecase for mapbox api
 - updated database structure 
+
+elizabethP -- 2023-06-06 13:18
+--------------------------------------------------------------
+- update db stucture to include stores_list
+- read in keyfood stores data into stores table
+
+elizabethP -- 2023-06-03 20:02
+--------------------------------------------------------------
+- add onbaorind column to users
+- add funcs to interact with onboarding 
+- add wfm data to stores db
+- add func to return data from stores db
+
+sashaS -- 2023-06-06 21:23
+--------------------------------------------------------------
+- add stores_list table for db
+- two functions : create table , get all store_ids per user 
+- possible function : get all stores from stores tables using store_ids

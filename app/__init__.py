@@ -3,6 +3,7 @@ from auth import *
 from cart import *
 from db import * 
 from produce import *
+from stores_list import * 
 from input_check import *
 
 app = Flask(__name__)
@@ -157,3 +158,5 @@ def page_not_found(e):
 if __name__ == "__main__":
     app.debug = True
     app.run()
+
+create_stores_list_table() 
