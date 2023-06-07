@@ -1,9 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
-import 
+
 
 
 def get_products_from_store(id):
+    links_to_scrape = [f"dept/dept-{id}-bakery",  f"dept/dept-{id}-beverages", f"dept/dept-{id}-deli", f"dept/dept-{id}-meatandseafood", f"dept/dept-{id}-pantry", f"dept/dept-{id}-produce", f"dept/dept-{id}-refridgerated", f"dept/dept-{id}-snacks"]
+    base_url = "https://keyfoodstores.keyfood.com/store/keyFood/en/c/"
+
+
     s = requests.Session()
 
     # get csrf token
@@ -24,26 +28,31 @@ def get_products_from_store(id):
     # set store
     s.get("https://keyfoodstores.keyfood.com/store/keyFood/en/store-locator/get-session-store")
 
-    # get products!
-    html = s.get("https://keyfoodstores.keyfood.com/store/keyfoodstores/en/Departments/c/Departments?sort=name-asc&page=0").text
-    soup = BeautifulSoup(html, 'html.parser')
 
-    results = int(soup.find(class_="js-live-pagination-n-results").attrs["data-pagination-aria-live-results"])
-    pages = results // 72
-
-    for i in range(pages + 1):
-        html = s.get(f"https://keyfoodstores.keyfood.com/store/keyfoodstores/en/Departments/c/Departments?sort=name-asc&page={i}").text
+    for link in links_to_scrape:
+        # get products!
+        resp = s.get(f"{base_url}{link}?sort=name-asc&page=0")
+        html = resp.text
         soup = BeautifulSoup(html, 'html.parser')
 
-        products = soup.find_all(class_="product")
+        results = int(soup.find(class_="js-live-pagination-n-results").attrs["data-pagination-aria-live-results"])
+        pages = results // 72
 
-        for product in products:
-            name = product.find(class_="product__name").get_text()
-            price = product.find(class_="price").get_text()
-            image = product.img.get("src")
+        for i in range(pages + 1):
+            resp = s.get(f"{base_url}{link}?sort=name-asc&page={i}")
+            html = resp.text
+            soup = BeautifulSoup(html, 'html.parser')
 
-    # produce.insert_produce(name, None, image, None, None, price, "Key Food", id, None)
-    # produce, product_url, img_url, weight, quantity, price, store, store_id, category):
+            products = soup.find_all(class_="product")
+
+            for product in products:
+                name = product.find(class_="product__name").get_text()
+                price = product.find(class_="price").get_text()
+                image = product.img.get("src")
+                print(f"{name} - {price}")
+
+        # produce.insert_produce(name, None, image, None, None, price, "Key Food", id, None)
+        # produce, product_url, img_url, weight, quantity, price, store, store_id, category):
 
 
-get_products_from_store(1640)
+get_products_from_store(1472)
