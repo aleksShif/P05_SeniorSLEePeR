@@ -6,10 +6,15 @@ from produce import *
 from stores_list import * 
 from input_check import *
 from functools import wraps
+import stores
+import requests
+import math
 
 app = Flask(__name__)
 app.secret_key = b'pAHy827suhda*216jdaa'
 
+with open("app/keys/mapbox.txt") as f:
+    mapbox_token = f.read().strip()
 
 def login_required(f):
     @wraps(f)
@@ -114,10 +119,14 @@ def onboarding():
             update_onboarding_val(username, 1)
 
     if get_onboarding_val(username) == 0:
+        # TODO: CHECK IF IT IS VALID ZIP
         return render_template("onboarding-zip.html")
     
     if get_onboarding_val(username) == 1:
-        return render_template("onboarding-stores.html")
+        zip = get_user_zip(username)
+        stores = requests.get(f'/api/stores/search?zip={zip}')
+
+        return render_template("onboarding-stores.html", stores=stores)
     
     return redirect("catalog")
 
@@ -159,7 +168,6 @@ def catalog_with_category(category):
         abort(404)
 
     page = request.args.get('page', "1")
-    print(page)
 
     return render_template("category.html", category_slug=category, category=categories[category], logged_in=True)
 
@@ -176,6 +184,24 @@ def search(category="all"):
     return render_template("search.html", logged_in=True)
 
 
+@app.route("/api/stores/search")
+def store_search():
+    zip = request.args.get('zip')
+
+    resp = requests.get(f"https://api.mapbox.com/geocoding/v5/mapbox.places/{zip}.json?types=postcode&limit=1&access_token={mapbox_token}").json()
+    coords = resp["features"][0]["center"]
+
+    store_list = stores.get_list_dict_id_address_lat_long()
+
+        
+    for store in store_list:
+        store.update({"dist":math.dist(coords, [store["lon"], store["lat"]])})
+
+    store_list.sort(key=lambda store: store["dist"])
+
+    return store_list[:100]
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error.html', error_code=404, error_message="Sorry, we got lost in the aisles.", logged_in="username" in session), 404
@@ -189,5 +215,3 @@ def page_not_found(e):
 if __name__ == "__main__":
     app.debug = True
     app.run()
-
-create_stores_list_table() 

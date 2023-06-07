@@ -27,14 +27,9 @@
                     Store List
                 </div>
                 <div id="stores" class="overflow-y-scroll">
-                    <div class="h-[400px]">hi</div>
-                    <div class="h-[400px]">hi</div>
-                    <div class="h-[400px]">hi</div>
-                    <div class="h-[400px]">hi</div>
-                    <div class="h-[400px]">hi</div>
-                    <div class="h-[400px]">hi</div>
-                    <div class="h-[400px]">hi</div>
-                    <div class="h-[400px]">hi</div>
+                    {% for store in stores %} 
+                        {{macros.store(store["retailer"], store["address"])}}
+                    {%endfor%}
                 </div>
             </div>
         </div>
