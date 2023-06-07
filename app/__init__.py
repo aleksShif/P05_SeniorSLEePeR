@@ -111,7 +111,12 @@ def user_stores():
 
         update_onboarding_val(username, -1)
 
-    return redirect("/")
+        return redirect("/")
+    
+    return json.dumps(stores_list.get_store_list_ids_user(username))
+
+    
+
 
 
 @app.route("/onboarding", methods=["GET", "POST"])

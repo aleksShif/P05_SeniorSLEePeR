@@ -1,6 +1,7 @@
 # create table
 # add store, user
 # get list all stores per user 
+import sqlite3
 try:
     from db import query_db
 except:
