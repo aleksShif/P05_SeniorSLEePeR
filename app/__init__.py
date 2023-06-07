@@ -86,6 +86,9 @@ def register():
         if not check_password_requirements(new_pass):
             flash("Password has to be 4 characters or longer")
 
+        if not check_username_availability(new_user):
+            flash("Username already taken")
+
         return redirect(url_for("register"))
 
     return render_template("register.html")
@@ -116,6 +119,7 @@ def onboarding():
 
     if request.method == "POST":
         if request.form.get("zip", None):
+            update_user_zip(username, request.form.get('zip'))
             update_onboarding_val(username, 1)
 
     if get_onboarding_val(username) == 0:
@@ -124,7 +128,7 @@ def onboarding():
     
     if get_onboarding_val(username) == 1:
         zip = get_user_zip(username)
-        stores = requests.get(f'/api/stores/search?zip={zip}')
+        stores = requests.get(f"http://127.0.0.1:5000/{url_for('store_search')}?zip={zip}").json()
 
         return render_template("onboarding-stores.html", stores=stores)
     

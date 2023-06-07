@@ -19,8 +19,8 @@ def check_username_availability(username):
     return user is None
 
 def check_creds(username, password):
-    passw = query_db("SELECT password FROM users WHERE username = ?", (username,))
-    return (len(passw) != 0 and password == passw[0][0])
+    user = query_db("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
+    return user is not None
 
 def update_user_password(username, new_password):
     query_db("UPDATE users SET password = ? WHERE username = ?", (new_password, username))
@@ -29,8 +29,7 @@ def delete_user(username):
     query_db("DELETE FROM users WHERE username = ?", (username))
 
 def get_user_password(username):
-    password = query_db("SELECT password FROM users WHERE username = ?", (username,))
-    return password
+    return query_db("SELECT password FROM users WHERE username = ?", (username,))
 
 def get_onboarding_val(username):
     return query_db("SELECT onboarding FROM users WHERE username = ?", (username,))[0]
