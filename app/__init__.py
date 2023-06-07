@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, flash, abort
+from flask import Flask, render_template, request, session, redirect, url_for, flash, abort, jsonify
 from auth import *
 from cart import *
 from db import * 
@@ -100,8 +100,25 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-@app.route("/api/user/stores", methods=["GET", "POST"])
+
+@app.route("/user/stores")
+@login_required
 def user_stores():
+    # TODO: CHANGE URL WHEN DEPLOYED
+    username = session.get("username")
+    stores = stores_list.get_store_list_ids_user(username)
+    zip = get_user_zip(username)
+    resp = requests.get(f"https://api.mapbox.com/geocoding/v5/mapbox.places/{zip}.json?types=postcode&limit=1&access_token={mapbox_token}").json()
+    zip_coords = resp["features"][0]["center"]
+
+    return render_template("stores.html", stores=stores, zip=zip, zip_lon=zip_coords[0], zip_lat=zip_coords[1])
+
+
+@app.route("/api/user/stores", methods=["GET", "POST"])
+def api_user_stores():
+    if "username" not in session:
+        return redirect("/")
+
     username = session.get("username")
     if request.method == "POST":
         store_ids = list(request.form.keys())
@@ -113,9 +130,39 @@ def user_stores():
 
         return redirect("/")
     
-    return json.dumps(stores_list.get_store_list_ids_user(username))
+    return jsonify(stores_list.get_store_list_ids_user(username))
 
     
+@app.route("/api/user/stores.geojson")
+@login_required
+def api_user_stores_geojson():
+    username = session.get("username")
+    stores = stores_list.get_store_list_ids_user(username)
+
+    features = []
+
+    for store in stores:
+        feature = {
+            'type': 'Feature',
+            'properties': {
+                'retailer': store["retailer"],
+                'address': store["address"],
+                'id': store["id"]
+            },
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [store["lon"], store["lat"]]
+            }
+        }
+        features.append(feature)
+        
+
+    geojson = {
+        'type': "FeatureCollection",
+        'features': features
+    }
+
+    return jsonify(geojson)
 
 
 
@@ -153,7 +200,7 @@ def catalog():
     return render_template("catalog.html", logged_in=True)
 
 
-@app.route("/profile", methods=['GET', 'POST'])
+@app.route("/user/account", methods=['GET', 'POST'])
 @login_required
 def profile():
     username = session.get("username")
@@ -175,7 +222,8 @@ def profile():
 
         return redirect(url_for("profile"))
 
-    return render_template("profile.html", logged_in=True, username=username)
+    return render_template("account.html", logged_in=True, username=username)
+
 
 
 @app.route('/catalog/<category>')
@@ -248,7 +296,7 @@ def store_search_geojson():
         'features': features
     }
 
-    return json.dumps(geojson)
+    return jsonify(geojson)
 
 
 
