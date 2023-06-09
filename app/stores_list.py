@@ -1,6 +1,7 @@
 # create table
 # add store, user
 # get list all stores per user 
+import sqlite3
 try:
     from db import query_db
 except:
@@ -19,6 +20,10 @@ def get_store_list_ids_user(username):
     for i in unformatted:
         formatted.append(i[0])
     return (formatted)
+
+def add_store(username, id):
+    query_db("INSERT INTO stores_list VALUES (?, ?);", (username, id))
+
 
 # def get_stores_list_ids(user):
 #     id_list = get_store_list_ids_user(user)
