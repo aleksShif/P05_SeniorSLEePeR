@@ -4,6 +4,8 @@ try:
 except:
     from db import query_db
 
+def add_new_item(username, item_id, quantity):
+    query_db("INSERT INTO cart(username, id) VALUES (?, ?, ?);", (username, item_id, quantity))
 # NOT TESTED
 
 # CART ITSELF
