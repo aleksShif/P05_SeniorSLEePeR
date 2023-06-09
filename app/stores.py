@@ -27,6 +27,55 @@ def get_stores_near_zip_kf(zip):
     response = requests.get(f"https://keyfoodstores.keyfood.com/store/keyFood/en/store-locator?q={zip}&page=0&radius=20&all=false")
     return response.json()
 
+def get_stores_near_zip_tj(zip):
+    json_data = {
+        'request': {
+            'appkey': '8559C922-54E3-11E7-8321-40B4F48ECC77',
+            'formdata': {
+                'geoip': False,
+                'dataview': 'store_default',
+                'limit': 30,
+                'geolocs': {
+                    'geoloc': [
+                        {
+                            'country': 'US',
+                            'postalcode': f'{zip}',
+                        },
+                    ],
+                },
+                'searchradius': '3000',
+                'where': {
+                    'or': {
+                        'wine': {
+                            'eq': '',
+                        },
+                        'beer': {
+                            'eq': '',
+                        },
+                        'liquor': {
+                            'eq': '',
+                        },
+                        'comingsoon': {
+                            'eq': '',
+                        },
+                    },
+                    'name': {
+                        'distinctfrom': 'World Class Distribution',
+                    },
+                },
+                'false': '0',
+            },
+        },
+    }
+
+    response = requests.post(
+        'https://hosted.where2getit.com/traderjoes/rest/locatorsearch',
+        json=json_data,
+    )
+
+
+    return response.json()
+
 def create_stores_table():
     # UNIQUE -> https://stackoverflow.com/questions/19337029/insert-if-not-exists-statement-in-sqlite
     query_db("DROP TABLE IF EXISTS stores;")
@@ -38,7 +87,7 @@ def add_keyfood_data(zip):
     print(f"{len(stores_list)} Key Foods found near {zip}")
     for store in stores_list: 
         
-        query_db("INSERT OR IGNORE INTO stores(retailer, retailer_id, lon, lat, address, img_url) VALUES (?,?,?,?,?, ?, NULL)", (store.get("displayName"), store.get("name"), store.get("longitude"), store.get("latitude"), store.get("line1"), store.get("town") + ", " + store.get("state") + " " + store.get("postalCode")))
+        query_db("INSERT OR IGNORE INTO stores(retailer, retailer_id, lon, lat, address, line2, img_url) VALUES (?,?,?,?,?, ?, NULL)", (store.get("displayName"), store.get("name"), store.get("longitude"), store.get("latitude"), store.get("line1"), store.get("town") + ", " + store.get("state") + " " + store.get("postalCode")))
 
 def add_wfm_data(zip):
     list = get_stores_near_zip_wfm(zip)
@@ -46,13 +95,20 @@ def add_wfm_data(zip):
     #print(dict)
     for dict in list:
         #print(dict)
-        query_db("INSERT OR IGNORE INTO stores(retailer, retailer_id, lon, lat, address, img_url) VALUES (?,?,?,?,?, ?, NULL)", ("Whole Foods Market", dict.get("storeId"), dict.get("location").get("geometry").get("coordinates")[0], dict.get("location").get("geometry").get("coordinates")[1], dict.get("location").get("address").get("line1"), dict.get("location").get("address").get("city") + ", " + dict.get("location").get("address").get("state") + " " + dict.get("location").get("address").get("postalCode")))
+        query_db("INSERT OR IGNORE INTO stores(retailer, retailer_id, lon, lat, address, line2, img_url) VALUES (?,?,?,?,?, ?, NULL)", ("Whole Foods Market", dict.get("storeId"), dict.get("location").get("geometry").get("coordinates")[0], dict.get("location").get("geometry").get("coordinates")[1], dict.get("location").get("address").get("line1"), dict.get("location").get("address").get("city") + ", " + dict.get("location").get("address").get("state") + " " + dict.get("location").get("address").get("postalCode")))
         
+def add_tj_data(zip): 
+    dict = get_stores_near_zip_tj(zip)
+    stores_list = dict.get("response").get("collection")
+    print(f"{len(stores_list)} Trader Joe's found near {zip}")
+    for store in stores_list:
+        query_db("INSERT OR IGNORE INTO stores(retailer, retailer_id, lon, lat, address, line2, img_url) VALUES (?,?,?,?,?, ?, NULL)", ("Trader Joe's", store.get("uid"), store.get("longitude"), store.get("latitude"), store.get("address1"), store.get("city") + ", " + store.get("state") + " " + store.get("postalcode")))
 
 def add_all_stores(zip): 
     create_stores_table()
     add_keyfood_data(zip)
     add_wfm_data(zip)
+    add_tj_data(zip)
 
 def get_list_store_ids():
     conn = sqlite3.connect("P5.db")

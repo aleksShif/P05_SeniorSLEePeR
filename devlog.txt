@@ -68,7 +68,7 @@ elizabethP -- 2023-06-06 13:18
 
 elizabethP -- 2023-06-03 20:02
 --------------------------------------------------------------
-- add onbaorind column to users
+- add onboardind column to users
 - add funcs to interact with onboarding 
 - add wfm data to stores db
 - add func to return data from stores db
@@ -78,3 +78,9 @@ sashaS -- 2023-06-06 21:23
 - add stores_list table for db
 - two functions : create table , get all store_ids per user 
 - possible function : get all stores from stores tables using store_ids
+
+elizabethP -- 2023-06-09 13:15
+--------------------------------------------------------------
+- add func to add items to cart
+- add trader joes data to stores table 
+- add requirements.txt file
