@@ -106,12 +106,12 @@ def logout():
 def user_stores():
     # TODO: CHANGE URL WHEN DEPLOYED
     username = session.get("username")
-    stores = stores_list.get_store_list_ids_user(username)
+    stores = stores_list.get_stores_from_user(username)
     zip = get_user_zip(username)
     resp = requests.get(f"https://api.mapbox.com/geocoding/v5/mapbox.places/{zip}.json?types=postcode&limit=1&access_token={mapbox_token}").json()
     zip_coords = resp["features"][0]["center"]
-
-    return render_template("stores.html", stores=stores, zip=zip, zip_lon=zip_coords[0], zip_lat=zip_coords[1])
+ 
+    return render_template("stores.html", stores=stores, zip=zip, zip_lon=zip_coords[0], zip_lat=zip_coords[1], logged_in=True)
 
 
 @app.route("/api/user/stores", methods=["GET", "POST"])

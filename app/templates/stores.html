@@ -18,7 +18,7 @@
         Your Stores
     </p>
 
-    <form action="/api/user/stores" method="POST" >
+    <form class="grow flex flex-col" action="/api/user/stores" method="POST" >
 
     <div class="w-full flex flex-col md:flex-row border-2 border-fern-600 grow rounded-lg">
         <div class="basis-1/2 border-t-2 md:border-t-0 md:border-r-2 border-fern-600">
@@ -28,7 +28,7 @@
                 </div>
                 <div id="stores" class="overflow-y-scroll">
                     {% for store in stores %} 
-                        {{macros.store(store["retailer"], store["address"], store["address2"], store["id"])}}
+                        {{macros.store(store["retailer"], store["address"], store["address2"], store["id"], store["saved"])}}
                     {%endfor%}
                 </div>
             </div>
