@@ -34,6 +34,9 @@ def add_store(username, id):
 
     return
 
+def remove_store(username, id):
+    query_db("DELETE FROM stores_list WHERE username == ? AND store_id == ?;", (username, id))
+
 
 
 # def get_stores_list_ids(user):

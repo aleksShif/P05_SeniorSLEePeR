@@ -106,8 +106,16 @@ def logout():
 def user_stores():
     # TODO: CHANGE URL WHEN DEPLOYED
     username = session.get("username")
-    stores = stores_list.get_stores_from_user(username)
     zip = get_user_zip(username)
+    
+    stores = requests.get(f"http://127.0.0.1:5000/{url_for('store_search')}?zip={zip}").json()
+
+    saved_stores = stores_list.get_stores_from_user(username)
+    saved_store_ids = [store["id"] for store in saved_stores]
+
+    stores = [store for store in stores if store["id"] not in saved_store_ids]
+    stores = saved_stores + stores
+
     resp = requests.get(f"https://api.mapbox.com/geocoding/v5/mapbox.places/{zip}.json?types=postcode&limit=1&access_token={mapbox_token}").json()
     zip_coords = resp["features"][0]["center"]
  
@@ -121,9 +129,16 @@ def api_user_stores():
 
     username = session.get("username")
     if request.method == "POST":
-        store_ids = list(request.form.keys())
+        new_store_ids = list(request.form.keys())
     
-        for id in store_ids:
+        saved_stores = stores_list.get_stores_from_user(username)
+        saved_store_ids = [store["id"] for store in saved_stores]
+
+        for store_id in saved_store_ids:
+            if store_id not in new_store_ids:
+                stores_list.remove_store(username, store_id)
+
+        for id in new_store_ids:
             stores_list.add_store(username, id)
 
         update_onboarding_val(username, -1)
