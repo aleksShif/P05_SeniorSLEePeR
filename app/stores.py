@@ -16,6 +16,7 @@ def get_stores_near_zip_wfm(zip):
         page.goto("https://www.wholefoodsmarket.com/stores")
         
         with page.expect_response("https://www.wholefoodsmarket.com/stores/search") as response:
+            page.wait_for_load_state('networkidle')
             search_bar = page.query_selector("#store-finder-search-bar")
             search_bar.fill(f"{zip}")
             search_bar.press('Enter')
@@ -78,15 +79,13 @@ def get_stores_near_zip_tj(zip):
 
 def create_stores_table():
     # UNIQUE -> https://stackoverflow.com/questions/19337029/insert-if-not-exists-statement-in-sqlite
-    query_db("DROP TABLE IF EXISTS stores;")
-    query_db("CREATE TABLE IF NOT EXISTS stores(id INTEGER PRIMARY KEY AUTOINCREMENT, retailer TEXT, retailer_id INT, lon FLOAT, lat FLOAT, address TEXT, line2 TEXT, img_url, UNIQUE(retailer_id))")
+    query_db("CREATE TABLE IF NOT EXISTS stores(id INTEGER PRIMARY KEY, retailer TEXT, retailer_id INT, lon FLOAT, lat FLOAT, address TEXT UNIQUE, line2 TEXT, img_url TEXT)")
 
 def add_keyfood_data(zip): 
     dict = get_stores_near_zip_kf(zip)
     stores_list = dict.get("data")
     print(f"{len(stores_list)} Key Foods found near {zip}")
     for store in stores_list: 
-        
         query_db("INSERT OR IGNORE INTO stores(retailer, retailer_id, lon, lat, address, line2, img_url) VALUES (?,?,?,?,?, ?, NULL)", (store.get("displayName"), store.get("name"), store.get("longitude"), store.get("latitude"), store.get("line1"), store.get("town") + ", " + store.get("state") + " " + store.get("postalCode")))
 
 def add_wfm_data(zip):
@@ -102,7 +101,7 @@ def add_tj_data(zip):
     stores_list = dict.get("response").get("collection")
     print(f"{len(stores_list)} Trader Joe's found near {zip}")
     for store in stores_list:
-        query_db("INSERT OR IGNORE INTO stores(retailer, retailer_id, lon, lat, address, line2, img_url) VALUES (?,?,?,?,?, ?, NULL)", ("Trader Joe's", store.get("uid"), store.get("longitude"), store.get("latitude"), store.get("address1"), store.get("city") + ", " + store.get("state") + " " + store.get("postalcode")))
+        query_db("INSERT OR IGNORE INTO stores(retailer, retailer_id, lon, lat, address, line2, img_url) VALUES (?,?,?,?,?, ?, NULL)", ("Trader Joe's", store.get("clientkey"), store.get("longitude"), store.get("latitude"), store.get("address1"), store.get("city") + ", " + store.get("state") + " " + store.get("postalcode")))
 
 def add_all_stores(zip): 
     create_stores_table()

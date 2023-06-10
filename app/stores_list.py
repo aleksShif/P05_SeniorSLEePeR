@@ -8,7 +8,7 @@ except:
     from db import query_db
 
 def create_stores_list_table():
-    query_db("DROP TABLE IF EXISTS stores_list;")
+    # query_db("DROP TABLE IF EXISTS stores_list;")
     query_db("CREATE TABLE IF NOT EXISTS stores_list(username TEXT, store_id INTEGER)")
 
 def get_stores_from_user(username):

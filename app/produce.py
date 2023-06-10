@@ -2,7 +2,7 @@ import sqlite3
 
 
 def create_produce_table():
-    DB_FILE="produce.db"
+    DB_FILE="P5.db"
 
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create it
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
@@ -14,7 +14,7 @@ def create_produce_table():
 
 
 def insert_produce(produce, product_url, img_url, weight, quantity, price, store, store_id, category):
-    DB_FILE="produce.db"
+    DB_FILE="P5.db"
 
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
@@ -31,7 +31,7 @@ def insert_produce(produce, product_url, img_url, weight, quantity, price, store
 
 def display_produce():
 
-    DB_FILE="produce.db"
+    DB_FILE="P5.db"
 
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
@@ -44,7 +44,7 @@ def display_produce():
     db.close()  #close database
 
 def check_duplicate(name, store):
-    DB_FILE="produce.db"
+    DB_FILE="P5.db"
 
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
@@ -58,7 +58,7 @@ def check_duplicate(name, store):
         return True
     
 def update_duplicate(name, category):
-    DB_FILE="produce.db"
+    DB_FILE="P5.db"
 
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events

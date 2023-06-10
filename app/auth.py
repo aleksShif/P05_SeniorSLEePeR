@@ -7,7 +7,7 @@ import sys
 
 # TESTED
 def create_users_cart_table(): 
-    query_db("DROP TABLE IF EXISTS users;")
+    # query_db("DROP TABLE IF EXISTS users;")
     query_db("CREATE TABLE IF NOT EXISTS users(username TEXT PRIMARY KEY, password TEXT, zip INT, onboarding INT)")
     query_db("CREATE TABLE IF NOT EXISTS cart(username TEXT, id INTEGER, quantity INTEGER)")
 
