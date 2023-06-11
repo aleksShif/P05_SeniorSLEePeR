@@ -124,13 +124,14 @@ def get_list_dict_id_address_lat_long():
     # print(ids)
     list = []
     for id in ids: 
-        retailer, lat, lon, address = query_db("SELECT retailer, lat, lon, address FROM stores WHERE id = ?",(id,))
+        retailer, retailer_id, lat, lon, address = query_db("SELECT retailer, retailer_id, lat, lon, address FROM stores WHERE id = ?",(id,))
         # lat = query_db("SELECT lat FROM stores WHERE id = ?",(id,))[0]
         # lon = query_db("SELECT lon FROM stores WHERE id = ?",(id,))[0]
         # address = query_db("SELECT address FROM stores WHERE id = ?",(id,))[0]
         dict = {
             "id": id, 
             "retailer": retailer,
+            "retailer_id": retailer_id,
             "lat": lat,
             "lon": lon,
             "address": address

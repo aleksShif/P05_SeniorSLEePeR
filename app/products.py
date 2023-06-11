@@ -30,6 +30,7 @@ def get_products_from_store(id):
 
 
     for link in links_to_scrape:
+        print(f"getting {link}")
         # get products!
         resp = s.get(f"{base_url}{link}?sort=name-asc&page=0")
         html = resp.text
@@ -39,6 +40,7 @@ def get_products_from_store(id):
         pages = results // 72
 
         for i in range(pages + 1):
+            print(f'on page {i} of {pages}')
             resp = s.get(f"{base_url}{link}?sort=name-asc&page={i}")
             html = resp.text
             soup = BeautifulSoup(html, 'html.parser')
@@ -51,7 +53,7 @@ def get_products_from_store(id):
                 image = product.img.get("src")
                 url = product.find(class_="product-card-anchor no-link").get("href")
                 # print(f"{name} - {price}")
-                print(price[0])
+                # print(price[0])
                 if link == f"dept/dept-{id}-bakery" or link == f"dept/dept-{id}-pantry" or link == f"dept/dept-{id}-snacks":
                     produce.insert_duplicate(name, f"https://www.keyfood.com/{url}", image, None, price[1], price[0], "Key Food", id, "Pantry")
                 if link == f"dept/dept-{id}-beverages":
@@ -79,4 +81,4 @@ def get_products_from_store(id):
         # produce, product_url, img_url, weight, quantity, price, store, store_id, category):
 
 
-get_products_from_store(1472)
+# get_products_from_store(1472)
