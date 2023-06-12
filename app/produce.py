@@ -63,9 +63,10 @@ def update_duplicate(name, category):
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
 
-    cat = c.execute("SELECT category from produce WHERE product_name = ?", (name,))
+    cat = c.execute("SELECT category from produce WHERE product_name = ?", (name,)).fetchall()[0][0]
 
-    table = c.execute("UPDATE produce SET category = ? WHERE product_name = ?", (cat.fetchall()[0][0] + "," + category, name))
+    # print(" +++++++++++++++++++++" +cat)
+    table = c.execute("UPDATE produce SET category = ? WHERE product_name = ? AND category is = ?", (cat + "," + category, name, cat))
    
     db.commit() #save changes
     db.close()  #close database

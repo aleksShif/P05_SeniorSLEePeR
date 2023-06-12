@@ -76,5 +76,5 @@ json_data = {
 }
 
 response = requests.post('https://www.traderjoes.com/api/graphql', json=json_data)
-print(response.json())
+print(response.json()['data']['products']['items'])
 

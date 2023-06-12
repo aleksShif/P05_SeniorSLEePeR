@@ -48,8 +48,13 @@ def get_products_from_store(id):
             products = soup.find_all(class_="product")
 
             for product in products:
-                name = product.find(class_="product__name").get_text()
+                name = product.find(class_="product__name")
+                if name != None:
+                    name = name.get_text()
                 price = product.find(class_="price").get_text().split()
+                if price[0] == "Price":
+                    price[0] = None
+                    price[1] = None
                 image = product.img.get("src")
                 url = product.find(class_="product-card-anchor no-link").get("href")
                 # print(f"{name} - {price}")
