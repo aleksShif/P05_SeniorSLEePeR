@@ -122,11 +122,12 @@ def user_stores():
     return render_template("stores.html", stores=stores, zip=zip, zip_lon=zip_coords[0], zip_lat=zip_coords[1], logged_in=True)
 
 
-@app.route("/api")
-def get_category_items():
+@app.route("/api/category/suggestions")
+def get_category_suggestions():
     cat = {}
     for x in categories:
-        cat[x] = produce.get_ten(categories[x])
+        cat[x] = get_ten(categories[x])
+
     
 @app.route("/api/user/stores", methods=["GET", "POST"])
 def api_user_stores():
@@ -218,7 +219,13 @@ def onboarding():
 @app.route("/catalog")
 @login_required
 def catalog():
-    return render_template("catalog.html", logged_in=True)
+    suggestions = {}
+    for x in categories.values():
+        suggestions[x] = get_ten(x)
+
+    print(suggestions)
+
+    return render_template("catalog.html", logged_in=True, suggestions=suggestions, categories=categories)
 
 
 @app.route("/user/account", methods=['GET', 'POST'])
