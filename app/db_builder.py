@@ -4,6 +4,7 @@ import stores_list
 import stores
 import wholefoods
 import kf_products
+import tj_products
 
 zips = {
     "brooklyn": "11226",
@@ -29,13 +30,16 @@ _stores = stores.get_list_dict_id_address_lat_long()
 
 for store in _stores:
     print(f"getting data from: {store}")
-    if store["retailer"] == "Whole Foods Market":
-        wholefoods.get_store_products(store["retailer_id"])
-    elif store["retailer"] == "Trader Joe's":
+    try:
+        if store["retailer"] == "Whole Foods Market":
+            wholefoods.get_store_products(store["retailer_id"])
+        elif store["retailer"] == "Trader Joe's":
+            pass
+        else:
+            kf_products.get_products_from_store(store["retailer_id"])
+    except:
+        print("lol i hope this never runs")
         pass
-    else:
-        kf_products.get_products_from_store(store["retailer_id"])
 
-        
-        
 
+tj_products.do_the_thing()
