@@ -51,7 +51,8 @@
         <div>
             <form action="/api/user/cart/add" method="post">
             <div class="text-sm flex justify-between">
-                <input class="w-[120px] py-1 rounded-md" type="number" value="1">
+                <input class="w-[120px] py-1 rounded-md" type="number" value="1" name="quantity">
+                <input class="hidden" type="number" value={{id}} name="id">
                 <button type="submit" class="rounded-full h-[36px] w-[36px] bg-fern-700 text-gray-50">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-auto">
     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />

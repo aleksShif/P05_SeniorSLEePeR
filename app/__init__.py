@@ -285,7 +285,6 @@ def _cart():
     quantity_prices = get_list_tuples_itemprice_quantity_totalprice(username)
     images = get_list_product_imgs(username)
 
-
     info = []
 
     for idx, id in enumerate(ids):
@@ -296,6 +295,8 @@ def _cart():
                      "total": quantity_prices[idx][2],
                      "image": images[idx]
                      })
+        
+    print(info)
 
     return render_template("cart.html", username=session.get("username"), logged_in=True, cart=info)
 
@@ -317,6 +318,20 @@ def search(category="all"):
         print(products)
 
     return render_template("search.html", logged_in=True, products=products)
+
+
+@login_required
+@app.route("/api/user/cart/add", methods=["POST"])
+def cart_add():
+    username = session.get("username")
+    id = request.form.get("id")
+    quantity = request.form.get("quantity")
+
+    add_new_item(username, id, quantity)
+
+    return redirect(request.referrer)
+
+
 
 
 @app.route("/api/stores/search")
