@@ -14,7 +14,7 @@
                 <div class="flex mt-2">
                     <input tabindex="1" placeholder="🍍, 🥕, 🥦, and more"
                         class="focus:ring-4 focus:ring-fern-300 w-full rounded-lg" type="text" name="query">
-                    <input tabindex="2" type="button"
+                    <input tabindex="2" type="submit"
                         class="focus:outline-none text-white bg-fern-700 hover:bg-fern-800 focus:ring-4 focus:ring-fern-300 font-medium rounded-lg text-sm px-5 py-2.5 ml-2"
                         value="Find the best deal!">
                 </div>
@@ -27,8 +27,8 @@
             </div>
 
             <div class="grid justify-between gap-x-8 gap-y-10" style="grid-template-columns: repeat(auto-fill, 200px);">
-                {% for i in range(100) %} 
-                {{macros.catalog_item()}}
+                {% for product in products %} 
+                    {{macros.catalog_item(product[0], product[3], product[1], product[6], product[7], product[2])}}
                 {%endfor%}
             </div>
 

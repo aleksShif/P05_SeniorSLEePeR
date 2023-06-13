@@ -122,11 +122,6 @@ def user_stores():
     return render_template("stores.html", stores=stores, zip=zip, zip_lon=zip_coords[0], zip_lat=zip_coords[1], logged_in=True)
 
 
-@app.route("/api/all_items/<limit>/<offset>")
-def get_all_category(limit, offset):
-     cat = {}
-     for c in categories: 
-        cat[c] = get_all(categories[c], limit, offset)
 
 @app.route("/api/user/stores", methods=["GET", "POST"])
 def api_user_stores():
@@ -261,9 +256,17 @@ def catalog_with_category(category):
     if category not in categories.keys():
         abort(404)
 
-    page = request.args.get('page', "1")
+    # page = request.args.get('page', "1")
 
-    return render_template("category.html", category_slug=category, category=categories[category], logged_in=True)
+    # return render_template("category.html", category_slug=category, category=categories[category], logged_in=True)
+
+    page  = int(request.args.get('page', 1))
+    if category != "all":
+        products = get_category(categories[category], 60, page)
+    else:
+        products = get_all(60, page)
+
+    return render_template("category.html", logged_in=True, products=products)
 
 
 @app.route('/cart')
@@ -275,7 +278,15 @@ def cart():
 @app.route("/catalog/<category>/search")
 @login_required
 def search(category="all"):
-    return render_template("search.html", logged_in=True)
+    page  = int(request.args.get('page', 1))
+    query  = request.args.get('query')
+
+    if category != "all":
+        products = search_category(categories[category], query, 60, page)
+    else:
+        products = search_all(query, 60, page)
+
+    return render_template("search.html", logged_in=True, products=products)
 
 
 @app.route("/api/stores/search")

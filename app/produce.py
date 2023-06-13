@@ -142,9 +142,34 @@ def get_ten(category, stores):
     print(pref)
     return c.execute(f"SELECT * from produce WHERE category = ? AND store IN {pref} ORDER BY RANDOM() LIMIT 10", (category,)).fetchall()
 
-def get_all(category, limit, offset):
+def get_category(category, limit, offset):
     DB_FILE="P5.db"
+    offset = offset * limit
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
     cat = c.execute("SELECT * from produce WHERE category = ? LIMIT ? OFFSET ?;", (category,limit,offset)).fetchall()
+    return cat
+
+def get_all(limit, offset):
+    DB_FILE="P5.db"
+    offset = offset * limit
+    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
+    cat = c.execute("SELECT * from produce LIMIT ? OFFSET ?;", (limit,offset)).fetchall()
+    return cat
+
+def search_category(category, query, limit, offset):
+    DB_FILE="P5.db"
+    offset = offset * limit
+    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
+    cat = c.execute("SELECT * from produce WHERE category = ? AND product_name LIKE ? LIMIT ? OFFSET ?;", (category, f"%{query}%",limit,offset)).fetchall()
+    return cat
+
+def search_all(query, limit, offset):
+    DB_FILE="P5.db"
+    offset = offset * limit
+    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
+    cat = c.execute("SELECT * from produce WHERE product_name LIKE ? LIMIT ? OFFSET ?;", (f"%{query}%",limit,offset)).fetchall()
     return cat
