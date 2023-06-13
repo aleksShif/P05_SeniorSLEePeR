@@ -18,7 +18,32 @@
     
     <div class="flex flex-wrap-reverse">
         <div class="grow min-w-[400px]">
-            ...
+            {% for item in cart %}
+
+                <p>
+                    {{item["name"]}}
+                </p>
+            
+                <p>
+                    {{item["price"]}}
+                </p>
+
+
+                <p>
+                    {{item["quantity"]}}
+                </p>
+
+                <p>
+                    {{item["total"]}}
+                </p>
+
+
+                <p>
+                    {{item["image"]}}
+                </p>
+
+            {% endfor %}
+            
         </div>
 
         <div class="min-w-[400px] flex-auto lg:flex-none">

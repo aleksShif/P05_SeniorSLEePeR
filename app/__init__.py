@@ -214,7 +214,8 @@ def onboarding():
 @login_required
 def catalog():
     username = session.get("username")
-    stores = stores_list.get_stores_from_user(username)
+    stores = [str(store["id"]) for store in stores_list.get_stores_from_user(username)]
+    print(stores)
     suggestions = {}
     for x in categories.values():
         suggestions[x] = get_ten(x, stores)
@@ -271,8 +272,26 @@ def catalog_with_category(category):
 
 @app.route('/cart')
 @login_required
-def cart():
-    return render_template("cart.html", username=session.get("username"), logged_in=True)
+def _cart():
+    username = session.get("username")
+    ids = get_list_ids_user(username)
+    names = get_list_product_names(username)
+    quantity_prices = get_list_tuples_itemprice_quantity_totalprice(username)
+    images = get_list_product_imgs(username)
+
+
+    info = []
+
+    for idx, id in enumerate(ids):
+        info.append({"id": id, 
+                     "name": names[idx], 
+                     "price": quantity_prices[idx][0],
+                     "quantity": quantity_prices[idx][1],
+                     "total": quantity_prices[idx][2],
+                     "image": images[idx]
+                     })
+
+    return render_template("cart.html", username=session.get("username"), logged_in=True, cart=info)
 
 @app.route("/catalog/search")
 @app.route("/catalog/<category>/search")
