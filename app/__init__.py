@@ -218,9 +218,11 @@ def onboarding():
 @app.route("/catalog")
 @login_required
 def catalog():
+    username = session.get("username")
+    stores = stores_list.get_stores_from_user(username)
     suggestions = {}
     for x in categories.values():
-        suggestions[x] = get_ten(x)
+        suggestions[x] = get_ten(x, stores)
 
     print(suggestions)
 
