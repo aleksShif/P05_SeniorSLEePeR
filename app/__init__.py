@@ -260,8 +260,7 @@ def catalog_with_category(category):
 
     # return render_template("category.html", category_slug=category, category=categories[category], logged_in=True)
 
-
-    page  = int(request.args.get('page', 0))
+    page  = int(request.args.get('page', 1))
     if category != "all":
         products = get_category(categories[category], 60, page)
     else:
@@ -279,6 +278,14 @@ def cart():
 @app.route("/catalog/<category>/search")
 @login_required
 def search(category="all"):
+    page  = int(request.args.get('page', 1))
+    query  = request.args.get('query')
+
+    if category != "all":
+        products = search_category(categories[category], query, 60, page)
+    else:
+        products = search_all(query, 60, page)
+
     return render_template("search.html", logged_in=True, products=products)
 
 
