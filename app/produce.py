@@ -156,3 +156,8 @@ def get_all(category, limit, offset):
     for i in unformatted:
         formatted.append(i[0])
     return (formatted)
+
+if __name__ == "__main__":
+    print(get_all("pantry", 10, 10))
+
+create_produce_table()
