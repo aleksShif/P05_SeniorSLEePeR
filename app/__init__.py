@@ -262,11 +262,15 @@ def catalog_with_category(category):
 
     # return render_template("category.html", category_slug=category, category=categories[category], logged_in=True)
 
+    username = session.get("username")
+    stores = [str(store["retailer_id"]) for store in stores_list.get_stores_from_user(username)]
+    tj = "Trader Joe's" in [str(store["retailer"]) for store in stores_list.get_stores_from_user(username)]
+
     page  = int(request.args.get('page', 1))
     if category != "all":
-        products = get_category(categories[category], 60, page)
+        products = get_category(categories[category], 60, page, stores, tj)
     else:
-        products = get_all(60, page)
+        products = get_all(60, page, stores, tj)
 
     return render_template("category.html", logged_in=True, products=products)
 
@@ -298,13 +302,16 @@ def _cart():
 @app.route("/catalog/<category>/search")
 @login_required
 def search(category="all"):
+    username = session.get("username")
+    stores = [str(store["retailer_id"]) for store in stores_list.get_stores_from_user(username)]
+    tj = "Trader Joe's" in [str(store["retailer"]) for store in stores_list.get_stores_from_user(username)]
     page  = int(request.args.get('page', 1))
     query  = request.args.get('query')
 
     if category != "all":
-        products = search_category(categories[category], query, 60, page)
+        products = search_category(categories[category], query, 60, page, stores, tj)
     else:
-        products = search_all(query, 60, page)
+        products = search_all(query, 60, page, stores, tj)
 
     return render_template("search.html", logged_in=True, products=products)
 
