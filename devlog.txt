@@ -84,3 +84,8 @@ elizabethP -- 2023-06-09 13:15
 - add func to add items to cart
 - add trader joes data to stores table 
 - add requirements.txt file
+
+elizabethP -- 2023-06-12 23:59
+--------------------------------------------------------------
+- add api route to return all items in category 
+- add offset and limit

@@ -128,11 +128,11 @@ def get_category_items():
     for x in categories:
         cat[x] = get_ten(categories[x])
 
-@app.route("/api")
-def get_all_category():
+@app.route("/api/all_items/<limit>/<offset>")
+def get_all_category(limit, offset):
     cat = {}
     for cat in categories: 
-        cat[cat] = get_all(categories[cat])
+        cat[cat] = get_all(categories[cat], limit, offset)
 
 @app.route("/api/user/stores", methods=["GET", "POST"])
 def api_user_stores():
