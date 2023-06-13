@@ -27,6 +27,11 @@ ryanL -- 2023-06-03 23:20
 --------------------------------------------------------------
 - small ui changes to pages
 
+laurenL -- 2023-06-03 13:20
+--------------------------------------------------------------
+- create produce db + functions 
+- begin formatting wholefoods product data 
+
 elizabethP -- 2023-06-03 23:08
 --------------------------------------------------------------
 - add query_db func to make working with sqlite cleaner
@@ -39,6 +44,11 @@ ryanL -- 2023-06-04 09:56
 - update page titles
 - cart and profile buttons on header
 - not ugly error pages
+
+laurenL -- 2023-06-04 13:50
+--------------------------------------------------------------
+- populate all pages of wholefoods product data into db
+- sort products my categories
 
 ryanL -- 2023-06-04 16:12
 --------------------------------------------------------------
@@ -66,6 +76,11 @@ elizabethP -- 2023-06-06 13:18
 - update db stucture to include stores_list
 - read in keyfood stores data into stores table
 
+laurenL -- 2023-06-06 22:00
+--------------------------------------------------------------
+- add quantity and weight columns to db
+- learn how to scrape stuff from ryan
+
 elizabethP -- 2023-06-03 20:02
 --------------------------------------------------------------
 - add onboardind column to users
@@ -79,13 +94,29 @@ sashaS -- 2023-06-06 21:23
 - two functions : create table , get all store_ids per user 
 - possible function : get all stores from stores tables using store_ids
 
+laurenL -- 2023-06-08 22:30
+--------------------------------------------------------------
+- scrape link data from keyfoods website
+- populate produce db with keyfoods data
+- categorize keyfoods products by keywords
+
 elizabethP -- 2023-06-09 13:15
 --------------------------------------------------------------
 - add func to add items to cart
 - add trader joes data to stores table 
 - add requirements.txt file
 
+laurenL -- 2023-06-09 13:20
+--------------------------------------------------------------
+- begin scrapping tj, w ryans help
+
 elizabethP -- 2023-06-12 23:59
 --------------------------------------------------------------
 - add api route to return all items in category 
 - add offset and limit
+
+laurenL -- 2023-06-12 23:00
+--------------------------------------------------------------
+- finish formatting tj data to the db
+- fix nonetype bug in populating dbs (still needs work)
+- populate category columns with random products
