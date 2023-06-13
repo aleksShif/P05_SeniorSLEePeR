@@ -126,7 +126,7 @@ def user_stores():
 def get_all_category(limit, offset):
      cat = {}
      for c in categories: 
-        cat[c] = produce.get_all(categories[c], limit, offset)
+        cat[c] = get_all(categories[c], limit, offset)
 
 @app.route("/api/user/stores", methods=["GET", "POST"])
 def api_user_stores():
@@ -323,8 +323,6 @@ def store_search_geojson():
     }
 
     return jsonify(geojson)
-
-@app.route()
 
 @app.errorhandler(404)
 def page_not_found(e):
