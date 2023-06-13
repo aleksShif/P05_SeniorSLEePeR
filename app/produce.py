@@ -130,3 +130,18 @@ def insert_duplicate(produce, product_url, img_url, weight, quantity, price, sto
 # insert_duplicate("apple", None, None, None, None, None, "wholefoods", None, "refrigerated")
 # display_produce()
 
+def get_ten(category):
+    DB_FILE="P5.db"
+    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
+
+    table = c.execute("SELECT * from produce WHERE category = ?", (category,)).fetchall()
+    print(len(table))
+    products = []
+    while len(products) < 10:
+        rand = random.randint(0, len(table)-1)
+        print(rand)
+        if table[rand] not in products:
+            products.append(table[rand])
+    
+    return products
