@@ -1,5 +1,13 @@
 import sqlite3
 
+categories = {
+    "produce": "Produce", 
+    "dairy_and_eggs": "Dairy & Eggs", 
+    "meat": "Meat", 
+    "pantry": "Pantry", 
+    "seafood": "Seafood", 
+    "beverages": "Beverages"
+}
 
 def create_produce_table():
     DB_FILE="P5.db"

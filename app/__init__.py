@@ -122,6 +122,10 @@ def user_stores():
     return render_template("stores.html", stores=stores, zip=zip, zip_lon=zip_coords[0], zip_lat=zip_coords[1], logged_in=True)
 
 
+@app.route("/api")
+def get_category_items():
+    for x in categories:
+        print(categories[x])
 @app.route("/api/user/stores", methods=["GET", "POST"])
 def api_user_stores():
     if "username" not in session:
