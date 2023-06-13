@@ -31,10 +31,12 @@
 
         
         <div class="shrink">
-
-
         {% if retailer == "Key Food" %}
             <img class="mx-auto rounded-md" height="200px" width="200px" src="https://keyfoodstores.keyfood.com/{{image}}">
+        {% elif retailer == "Wholefoods"}
+            <img class="mx-auto rounded-md" height="200px" width="200px" src="{{image}}">
+        {% elif retailer == "Trader Joe's"}
+            <img class="mx-auto rounded-md" height="200px" width="200px" src="{{image}}">
         {% endif %}
         </div>
 
