@@ -120,3 +120,8 @@ laurenL -- 2023-06-12 23:00
 - finish formatting tj data to the db
 - fix nonetype bug in populating dbs (still needs work)
 - populate category columns with random products
+
+
+laurenL -- 2023-06-13 1:00
+--------------------------------------------------------------
+- started considering user pref in catalog
