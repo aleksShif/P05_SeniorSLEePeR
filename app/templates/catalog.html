@@ -26,13 +26,11 @@
                 <p class="font-bold text-2xl mb-4">Catalog</p>
             </div>
 
+            
             <div>
-                {{macros.catalog_category('Produce', 'produce')}}
-                {{macros.catalog_category('Dairy & Eggs', 'dairy_and_eggs')}}
-                {{macros.catalog_category('Meat', 'meat')}}
-                {{macros.catalog_category('Pantry', 'pantry')}}
-                {{macros.catalog_category('Seafood', 'seafood')}}
-                {{macros.catalog_category('Beverages', 'beverages')}}
+            {% for category_slug, category in categories.items() %}
+                {{macros.catalog_category(category, category_slug, suggestions[category])}}
+            {% endfor %}
             </div>
         </div>
     </div>

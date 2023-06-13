@@ -135,16 +135,7 @@ def get_ten(category):
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
 
-    table = c.execute("SELECT * from produce WHERE category = ?", (category,)).fetchall()
-    print(len(table))
-    products = []
-    while len(products) < 10:
-        rand = random.randint(0, len(table)-1)
-        print(rand)
-        if table[rand] not in products:
-            products.append(table[rand])
-    
-    return products
+    return c.execute("SELECT * from produce WHERE category = ?  ORDER BY RANDOM() LIMIT 10", (category,)).fetchall()
 
 def get_all(category, limit, offset):
     DB_FILE="P5.db"

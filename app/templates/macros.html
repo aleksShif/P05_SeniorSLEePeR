@@ -1,4 +1,4 @@
-{% macro catalog_category(category_name, category_slug) -%}
+{% macro catalog_category(category_name, category_slug, suggestions) -%}
     <div>
         <div class="flex mb-2">
             <p class="text-xl font-bold">{{category_name}}</p>
@@ -6,12 +6,9 @@
             <a tabindex="-1" class="underline" href="/catalog/{{category_slug}}">View all</a>
         </div>
         <div class="overflow-x-scroll max-w-full mb-4 flex gap-8">
-            {{catalog_item()}}
-            {{catalog_item()}}
-            {{catalog_item()}}
-            {{catalog_item()}}
-            {{catalog_item()}}
-            {{catalog_item()}}
+            {% for suggestion in suggestions %}
+            {{catalog_item(suggestion[0], suggestion[3], suggestion[1], suggestion[6], suggestion[7])}}
+            {% endfor %}
             <button 
             onclick="location.href='/catalog/{{category_slug}}'"
             tabindex="-1"
@@ -29,8 +26,44 @@
 {%- endmacro %}
 
 
-{% macro catalog_item() -%}
-    <div class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg"></div>
+{% macro catalog_item(id, image, name, price, retailer) -%}
+    <div id={{id}} class="p-4 shrink-0 w-[200px] h-[310px]  max-w-[200px] max-h-[310px] bg-fern-200 rounded-lg flex flex-col gap-2 ">
+
+        
+        <div class="shrink">
+
+
+        {% if retailer == "Key Food" %}
+            <img class="mx-auto rounded-md" height="200px" width="200px" src="https://keyfoodstores.keyfood.com/{{image}}">
+        {% endif %}
+        </div>
+
+        <div class="">
+            <p class="text-lg font-medium truncate">
+            {{name}}
+            </p>
+        </div>
+        <div>
+            {{price}}
+        </div>
+        <div>
+            <form action="/api/user/cart/add" method="post">
+            <div class="text-sm flex justify-between">
+                <input class="w-[120px] py-1 rounded-md" type="number" value="1">
+                <button type="submit" class="rounded-full h-[36px] w-[36px] bg-fern-700 text-gray-50">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-auto">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+    </svg>
+
+
+                </button>
+            </div>
+            </form>
+        </div>
+
+
+
+    </div>
 {%- endmacro %}
 
 
