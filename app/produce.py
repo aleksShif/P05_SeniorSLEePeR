@@ -124,7 +124,7 @@ def insert_duplicate(produce, product_url, img_url, weight, quantity, price, sto
         insert_produce(produce, product_url, img_url, weight, quantity, price, store, store_id, category)
 #     elif check_duplicate(produce, store) and check_category(produce, store, category):
 #         print("duplicate found!!")
-create_produce_table()
+# create_produce_table()
 # insert_produce("apple", None, None, None, None, None, "wholefoods", None, "fruit")
 # display_produce()
 # insert_duplicate("apple", None, None, None, None, None, "wholefoods", None, "refrigerated")
