@@ -124,9 +124,9 @@ def user_stores():
 
 @app.route("/api/all_items/<limit>/<offset>")
 def get_all_category(limit, offset):
-    cat = {}
-    for cat in categories: 
-        cat[cat] = get_all(categories[cat], limit, offset)
+     cat = {}
+     for c in categories: 
+        cat[c] = produce.get_all(categories[c], limit, offset)
 
 @app.route("/api/user/stores", methods=["GET", "POST"])
 def api_user_stores():
