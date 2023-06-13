@@ -3,7 +3,7 @@ import produce
 import stores_list
 import stores
 import wholefoods
-import products
+import kf_products
 
 zips = {
     "brooklyn": "11226",
@@ -34,7 +34,7 @@ for store in _stores:
     elif store["retailer"] == "Trader Joe's":
         pass
     else:
-        products.get_products_from_store(store["retailer_id"])
+        kf_products.get_products_from_store(store["retailer_id"])
 
         
         
