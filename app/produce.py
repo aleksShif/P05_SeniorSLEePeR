@@ -138,7 +138,7 @@ def get_ten(category, stores):
     DB_FILE="P5.db"
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
-    pref = "(\"" + ','.join(stores) + "\")"
+    pref = "(\"" + "\",\"".join(stores) + "\")"
     print(pref)
     return c.execute(f"SELECT * from produce WHERE category = ? AND store_id IN {pref} ORDER BY RANDOM() LIMIT 10", (category,)).fetchall()
 
