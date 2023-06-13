@@ -28,8 +28,8 @@
 
 
             <div class="grid justify-between gap-x-8 gap-y-10" style="grid-template-columns: repeat(auto-fill, 200px);">
-                {% for i in range(10) %} 
-                {{macros.catalog_item()}}
+                {% for product in products %} 
+                    {{macros.catalog_item(product[0], product[3], product[1], product[6], product[7], product[2])}}
                 {%endfor%}
             </div>
 
