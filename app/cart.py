@@ -5,7 +5,12 @@ except:
     from db import query_db
 
 def add_new_item(username, item_id, quantity):
-    query_db("INSERT INTO cart(username, id) VALUES (?, ?, ?);", (username, item_id, quantity))
+    ids = get_list_ids_user(username)
+    if username not in ids:
+        query_db("INSERT INTO cart(username, id, quantity) VALUES (?, ?, ?);", (username, item_id, quantity))
+    else: 
+        old_quan = ('SELECT id FROM cart WHERE username = ? AND id = ?;', (username, item_id))[0]
+        query_db("UPDATE cart SET quantity = ? WHERE username = ? AND id = ?;", (old_quan + quantity,username, item_id))
 # NOT TESTED
 
 # CART ITSELF
