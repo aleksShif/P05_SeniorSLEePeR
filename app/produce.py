@@ -53,10 +53,14 @@ def check_duplicate(name, store):
 
     # print(table.fetchall())
     if table.fetchall() == []:
+        db.commit() #save changes
+        db.close() 
         # print("duplicate not found")
         return False
     else:
         # print("duplicate found")
+        db.commit() #save changes
+        db.close() 
         return True
     
 def update_duplicate_cat(name, category):
@@ -86,14 +90,20 @@ def check_category(name, store, category):
     # print(table.fetchall()[0][0])
     if table == None:
         # print("no category found")
+        db.commit() #save changes
+        db.close() 
         return False
     table = table.split(",")
    
     if category in table:
+        db.commit() #save changes
+        db.close() 
         # print(x[0])
         # print("duplicate found in category")
         return True
     else:
+        db.commit() #save changes
+        db.close() 
         # print("no duplicate found in category")
         return False
 
@@ -106,7 +116,7 @@ def insert_duplicate(produce, product_url, img_url, weight, quantity, price, sto
         insert_produce(produce, product_url, img_url, weight, quantity, price, store, store_id, category)
 #     elif check_duplicate(produce, store) and check_category(produce, store, category):
 #         print("duplicate found!!")
-# create_produce_table()
+create_produce_table()
 # insert_produce("apple", None, None, None, None, None, "wholefoods", None, "fruit")
 # display_produce()
 # insert_duplicate("apple", None, None, None, None, None, "wholefoods", None, "refrigerated")

@@ -77,37 +77,53 @@ json_data = {
     'query': graphql_query
 }
 
-response = requests.post('https://www.traderjoes.com/api/graphql', json=json_data)
 punc = string.punctuation[0:5] + string.punctuation[6:]
 product_base_url = "https://www.traderjoes.com/home/products/pdp/"
 img_base_url = "https://www.traderjoes.com"
-for x in response.json()['data']['products']['items']:
-    name = x['item_title']
-    name_url_comp = name.split(" ")
-    name_url = ""
-    for i in range(len(name_url_comp)):
-        name_url_comp[i] = name_url_comp[i].strip(punc)
-        name_url = name_url + name_url_comp[i] + "-"
-    name_url = name_url[:-1]
-    product_url = product_base_url + name_url + "-" + str(x['sku'])
-    img_url = img_base_url + x['primary_image_meta']['url']
-    # print(img_url)
-    weight = str(x['sales_size']) + " " + x['sales_uom_description']
-    quantity = 1
-    price = str(x['price_range']['minimum_price']['final_price']['value'])
-    store = "Trader Joe's"
-    #CHANGE THIS
-    store_id = 1
-    category = None
-    if x['category_hierarchy'][2]['name'] == "For the Pantry" or x['category_hierarchy'][2]['name'] == "Snacks & Sweets" or x['category_hierarchy'][2]['name'] == "Dips, Sauces & Dressings" or  x['category_hierarchy'][2]['name'] == "Bakery":
-        category = "Pantry"
-    elif  "dairy" in x['category_hierarchy'][2]['name']  or  x['category_hierarchy'][2]['name'] == "Cheese":
-        category = "Dairy & Eggs"
-    elif x['category_hierarchy'][2]['name'] == "Fresh Fruits & Veggies":
-        category = "Produce"
-    produce.insert_duplicate(name, product_url, img_url, weight, quantity, price, store, store_id, category)
 
-produce.display_produce()
+# produce.create_produce_table()
+pages = json_data['variables']['pageSize']
+print(pages)
+for x in range(1,55):
+    json_data['variables']['currentPage'] = x
+    print("\n\n\n************** current page is " + str(x) + " **************")
+    response = requests.post('https://www.traderjoes.com/api/graphql', json=json_data)
+
+    for x in response.json()['data']['products']['items']:
+        if len(x['category_hierarchy']) > 2:
+          if x['category_hierarchy'][1]['name'] == "Food"  or x['category_hierarchy'][1]['name'] == "Beverages":
+            name = x['item_title']
+            name_url_comp = name.split(" ")
+            name_url = ""
+            for i in range(len(name_url_comp)):
+                name_url_comp[i] = name_url_comp[i].strip(punc)
+                name_url = name_url + name_url_comp[i] + "-"
+            name_url = name_url[:-1]
+            product_url = product_base_url + name_url + "-" + str(x['sku'])
+            img_url = img_base_url + x['primary_image_meta']['url']
+            # print(img_url)
+            weight = str(x['sales_size']) + " " + x['sales_uom_description']
+            quantity = 1
+            price = str(x['price_range']['minimum_price']['final_price']['value'])
+            store = "Trader Joe's"
+            #CHANGE THIS
+            store_id = 1
+            category = None
+            # print(x['category_hierarchy'])
+            if x['category_hierarchy'][1]['name'] == "Beverages":
+                category = "Beverages"
+            elif x['category_hierarchy'][2]['name'] == "For the Pantry" or x['category_hierarchy'][2]['name'] == "Snacks & Sweets" or x['category_hierarchy'][2]['name'] == "Dips, Sauces & Dressings" or  x['category_hierarchy'][2]['name'] == "Bakery":
+                category = "Pantry"
+            elif  "dairy" in x['category_hierarchy'][2]['name']  or  x['category_hierarchy'][2]['name'] == "Cheese":
+                category = "Dairy & Eggs"
+            elif x['category_hierarchy'][2]['name'] == "Fresh Fruits & Veggies":
+                category = "Produce"
+            # print(name)
+            produce.insert_duplicate(name, product_url, img_url, weight, quantity, price, store, store_id, category)
+          # produce.display_produce()
+        # else:
+        #     print( " \n\n\n\n\n\n\n\n************************" )
+        #     print(x['category_hierarchy'])
 # print("====================================")
 # print(response.json())
 
