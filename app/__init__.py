@@ -122,13 +122,12 @@ def user_stores():
     return render_template("stores.html", stores=stores, zip=zip, zip_lon=zip_coords[0], zip_lat=zip_coords[1], logged_in=True)
 
 
-@app.route("/api/category/suggestions")
-def get_category_suggestions():
+@app.route("/api/all_items/<limit>/<offset>")
+def get_all_category(limit, offset):
     cat = {}
-    for x in categories:
-        cat[x] = get_ten(categories[x])
+    for cat in categories: 
+        cat[cat] = get_all(categories[cat], limit, offset)
 
-    
 @app.route("/api/user/stores", methods=["GET", "POST"])
 def api_user_stores():
     if "username" not in session:
@@ -294,7 +293,6 @@ def store_search():
     return store_list[:100]
 
 
-@app.route("/api/stores/search.geojson")
 def store_search_geojson():
     zip = request.args.get('zip')
 
@@ -326,7 +324,7 @@ def store_search_geojson():
 
     return jsonify(geojson)
 
-
+@app.route()
 
 @app.errorhandler(404)
 def page_not_found(e):

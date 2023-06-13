@@ -50,3 +50,4 @@ def remove_store(username, id):
 #     conn.close() 
 #     return (formatted)
 
+create_stores_list_table()
