@@ -126,8 +126,14 @@ def user_stores():
 def get_category_items():
     cat = {}
     for x in categories:
-        cat[x] = produce.get_ten(categories[x])
-    
+        cat[x] = get_ten(categories[x])
+
+@app.route("/api")
+def get_all_category():
+    cat = {}
+    for cat in categories: 
+        cat[cat] = get_all(categories[cat])
+
 @app.route("/api/user/stores", methods=["GET", "POST"])
 def api_user_stores():
     if "username" not in session:
