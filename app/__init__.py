@@ -269,10 +269,11 @@ def catalog_with_category(category):
     page  = int(request.args.get('page', 1))
     if category != "all":
         products = get_category(categories[category], 60, page, stores, tj)
+        print(products)
     else:
         products = get_all(60, page, stores, tj)
 
-    return render_template("category.html", logged_in=True, products=products)
+    return render_template("category.html", logged_in=True, category=categories[category], products=products)
 
 
 @app.route('/cart')
@@ -310,8 +311,10 @@ def search(category="all"):
 
     if category != "all":
         products = search_category(categories[category], query, 60, page, stores, tj)
+        print(products)
     else:
         products = search_all(query, 60, page, stores, tj)
+        print(products)
 
     return render_template("search.html", logged_in=True, products=products)
 
