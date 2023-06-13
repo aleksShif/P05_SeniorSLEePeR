@@ -282,8 +282,13 @@ def _cart():
     username = session.get("username")
     ids = get_list_ids_user(username)
     names = get_list_product_names(username)
+    retailers = get_list_retailer_names(username)
     quantity_prices = get_list_tuples_itemprice_quantity_totalprice(username)
     images = get_list_product_imgs(username)
+
+    count = get_item_count(username)
+    store_count = get_num_unique_stores(username)
+    total = get_total_price(username)
 
     info = []
 
@@ -293,12 +298,13 @@ def _cart():
                      "price": quantity_prices[idx][0],
                      "quantity": quantity_prices[idx][1],
                      "total": quantity_prices[idx][2],
-                     "image": images[idx]
+                     "image": images[idx],
+                     "retailer": retailers[idx]
                      })
         
     print(info)
 
-    return render_template("cart.html", username=session.get("username"), logged_in=True, cart=info)
+    return render_template("cart.html", username=session.get("username"), logged_in=True, cart=info, count=count, store_count=store_count, total=total)
 
 @app.route("/catalog/search")
 @app.route("/catalog/<category>/search")

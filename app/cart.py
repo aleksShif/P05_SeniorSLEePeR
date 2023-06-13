@@ -6,11 +6,15 @@ except:
 
 def add_new_item(username, item_id, quantity):
     ids = get_list_ids_user(username)
-    if username not in ids:
+    print("hi")
+    print(ids)
+    item_id = int(item_id)
+    quantity = int(quantity)
+    if item_id not in ids:
         query_db("INSERT INTO cart(username, id, quantity) VALUES (?, ?, ?);", (username, item_id, quantity))
     else: 
-        old_quan = ('SELECT id FROM cart WHERE username = ? AND id = ?;', (username, item_id))[0]
-        query_db("UPDATE cart SET quantity = ? WHERE username = ? AND id = ?;", (old_quan + quantity,username, item_id))
+        old_quan = query_db('SELECT quantity FROM cart WHERE username = ? AND id = ?;', (username, item_id))[0]
+        query_db("UPDATE cart SET quantity = ? WHERE username = ? AND id = ?;", (old_quan + quantity, username, item_id))
 # NOT TESTED
 
 # CART ITSELF
@@ -31,13 +35,21 @@ def get_list_product_names(username):
         names.append(query_db('SELECT product_name FROM produce WHERE id = ?;', (id, ))[0])
     return names 
 
+def get_list_retailer_names(username):
+    ids = get_list_ids_user(username)
+    names = []
+    for id in ids: 
+        names.append(query_db('SELECT store FROM produce WHERE id = ?;', (id, ))[0])
+    return names 
+
 def get_list_tuples_itemprice_quantity_totalprice(username):
     ids = get_list_ids_user(username)
     prices = []
     for id in ids: 
         price = query_db('SELECT price FROM produce WHERE id = ?;', (id, ))[0]
-        quantity = query_db('SELECT quantity FROM care WHERE id = ? AND username = ?;', (id, ))[0]
-        prices.append(price, quantity, price * quantity)
+        quantity = query_db('SELECT quantity FROM cart WHERE id = ? AND username = ?;', (id, username))[0]
+        print(quantity)
+        prices.append((price, quantity, price * quantity))
     return prices
 
 def get_list_product_imgs(username):
@@ -69,10 +81,9 @@ def get_list_store_ids(username):
     return stores
 
 def get_total_price(username):
-    ids = get_list_ids_user(username)
+    tups = get_list_tuples_itemprice_quantity_totalprice(username)
     running_tot = 0
-    for id in ids: 
-       tup = get_list_tuples_itemprice_quantity_totalprice(username,id)
+    for tup in tups: 
        running_tot += tup[2]
     return running_tot
 
@@ -103,6 +114,9 @@ def get_num_unique_stores(username):
     store_ids = get_list_store_ids(username)
     num_unique = len(set(store_ids))
     return num_unique
+
+def get_item_count(username):
+    return query_db("select sum(quantity) from cart where username == ?", (username,))[0]
 
 '''
 def get_num_items_names_store

@@ -17,43 +17,65 @@
 
     
     <div class="flex flex-wrap-reverse">
-        <div class="grow min-w-[400px]">
+        <div class="grow min-w-[400px] flex flex-col mr-0 lg:mr-8">
             {% for item in cart %}
+                <div class="h-[200px] flex gap-8 border-b-2 px-4 py-8 border-fern-600">
+                    <img class="max-h-full max-w-[110px]" src="{{item['image']}}">
 
-                <p>
-                    {{item["name"]}}
-                </p>
-            
-                <p>
-                    {{item["price"]}}
-                </p>
+                    <div class="flex flex-col">
 
 
-                <p>
-                    {{item["quantity"]}}
-                </p>
+                    <p class="text-xl font-bold">
+                        {{item["name"]}}
+                    </p>
+                
+                    <div class="">
+                        
+                    <p>
+                        ${{item["price"]}} @ {{item["retailer"]}}
+                    </p>
 
-                <p>
-                    {{item["total"]}}
-                </p>
 
+                    </div>
+                    <p>
+                        Quantity: {{item["quantity"]}}
+                    </p>
+                    <p>
+                        Total: ${{item["total"]}}
+                    </p>
 
-                <p>
-                    {{item["image"]}}
-                </p>
+                    </div>
+
+                </div>
+                    
 
             {% endfor %}
             
         </div>
 
-        <div class="min-w-[400px] flex-auto lg:flex-none">
+        <div class="mt-8 min-w-[380px] flex-auto lg:flex-none">
             <div class="bg-fern-200 p-4  border-2 border-fern-600 rounded-t-lg ">
                 <p class="font-medium">
                     Summary
                 </p>
             </div>
 
-            <div class="h-[300px] border-x-2 border-b-2 border-fern-600 rounded-b-lg">
+            <div class="p-4 border-x-2 border-b-2 border-fern-600 rounded-b-lg">
+                <p class="font-medium text-lg mb-2">
+                Cart Total: ${{total}}
+                </p>
+
+                <p class="">
+                Items: {{count}} 
+                </p>
+
+                <p class="mb-2">
+                Stores: {{store_count}} 
+                </p>
+
+                <p>
+                Thanks for using 🥦
+                </p>
 
             </div>
 
