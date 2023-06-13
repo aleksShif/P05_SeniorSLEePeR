@@ -134,12 +134,13 @@ def insert_duplicate(produce, product_url, img_url, weight, quantity, price, sto
 # insert_duplicate("apple", None, None, None, None, None, "wholefoods", None, "refrigerated")
 # display_produce()
 
-def get_ten(category):
+def get_ten(category, stores):
     DB_FILE="P5.db"
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
-
-    return c.execute("SELECT * from produce WHERE category = ?  ORDER BY RANDOM() LIMIT 10", (category,)).fetchall()
+    pref = "(\"" + "\",\"".join(stores) + "\")"
+    print(pref)
+    return c.execute(f"SELECT * from produce WHERE category = ? AND store IN {pref} ORDER BY RANDOM() LIMIT 10", (category,)).fetchall()
 
 def get_all(category, limit, offset):
     DB_FILE="P5.db"
