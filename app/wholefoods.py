@@ -36,9 +36,9 @@ def get_store_products(store_id):
 def populate_db(data, category):
     for x in data:
         if 'imageThumbnail' in x:
-            produce.insert_produce(x['name'],"https://www.wholefoodsmarket.com/product/" + x['slug'], x['imageThumbnail'], None , None,  x['regularPrice'], "Wholefoods", x['store'], category)
+            produce.insert_duplicate(x['name'],"https://www.wholefoodsmarket.com/product/" + x['slug'], x['imageThumbnail'], None , None,  x['regularPrice'], "Wholefoods", x['store'], category)
         else:
-            produce.insert_produce(x['name'],"https://www.wholefoodsmarket.com/product/" + x['slug'], None, None , None,  x['regularPrice'], "Wholefoods", x['store'], category)
+            produce.insert_duplicate(x['name'],"https://www.wholefoodsmarket.com/product/" + x['slug'], None, None , None,  x['regularPrice'], "Wholefoods", x['store'], category)
 
 if __name__ == "__main__":
     produce.create_produce_table()

@@ -51,35 +51,64 @@ def check_duplicate(name, store):
 
     table = c.execute("SELECT * from produce WHERE product_name = ? AND store = ? ", (name, store))
 
-
+    # print(table.fetchall())
     if table.fetchall() == []:
+        # print("duplicate not found")
         return False
     else:
+        # print("duplicate found")
         return True
     
-def update_duplicate(name, category):
+def update_duplicate_cat(name, category):
     DB_FILE="P5.db"
 
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
 
-    cat = c.execute("SELECT category from produce WHERE product_name = ?", (name,)).fetchall()[0][0]
-
-    # print(" +++++++++++++++++++++" +cat)
-    table = c.execute("UPDATE produce SET category = ? WHERE product_name = ? AND category is = ?", (cat + "," + category, name, cat))
+    cat = c.execute("SELECT category from produce WHERE product_name = ?", (name,)).fetchall()
+    if cat[0][0] == None:
+        return False
+    c.execute("UPDATE produce SET category = ? WHERE product_name = ? AND category = ?", (cat + "," + category, name, cat))
    
     db.commit() #save changes
     db.close()  #close database
 
-def insert_duplicate(produce, product_url, img_url, weight, quantity, price, store, store_id, category):
-    if check_duplicate(produce, store):
-        update_duplicate(produce, category)
+def check_category(name, store, category):
+    DB_FILE="P5.db"
+
+    db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+    c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
+
+    table = c.execute("SELECT category from produce WHERE product_name = ? AND store = ?", (name, store)).fetchall()[0][0]
+
+    # print(table)
+    # print(table.fetchall())
+    # print(table.fetchall()[0][0])
+    if table == None:
+        # print("no category found")
+        return False
+    table = table.split(",")
+   
+    if category in table:
+        # print(x[0])
+        # print("duplicate found in category")
+        return True
     else:
+        # print("no duplicate found in category")
+        return False
+
+def insert_duplicate(produce, product_url, img_url, weight, quantity, price, store, store_id, category):
+    if check_duplicate(produce, store) and not check_category(produce, store, category):
+        update_duplicate_cat(produce, category)
+        # print("insert cat")
+    elif not check_duplicate(produce, store) :
+        # print("insert new")
         insert_produce(produce, product_url, img_url, weight, quantity, price, store, store_id, category)
+#     elif check_duplicate(produce, store) and check_category(produce, store, category):
+#         print("duplicate found!!")
 # create_produce_table()
 # insert_produce("apple", None, None, None, None, None, "wholefoods", None, "fruit")
 # display_produce()
-# if check_duplicate("apple", "wholefoods"):
-#     update_duplicate("apple", "refrigerated")
+# insert_duplicate("apple", None, None, None, None, None, "wholefoods", None, "refrigerated")
 # display_produce()
 
