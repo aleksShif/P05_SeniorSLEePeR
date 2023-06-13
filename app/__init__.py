@@ -293,6 +293,7 @@ def store_search():
     return store_list[:100]
 
 
+@app.route("/api/stores/search.geojson")
 def store_search_geojson():
     zip = request.args.get('zip')
 
