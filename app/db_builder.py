@@ -1,3 +1,4 @@
+import sys
 import auth
 import produce
 import stores_list
@@ -21,10 +22,10 @@ produce.create_produce_table()
 print("done")
 
 
-for borough, zip in zips.items():
-    print(f"adding stores in {borough}")
-    stores.add_all_stores(zip)
-    print("done")
+# for borough, zip in zips.items():
+#     print(f"adding stores in {borough}")
+#     stores.add_all_stores(zip)
+#     print("done")
 
 _stores = stores.get_list_dict_id_address_lat_long()
 
@@ -37,6 +38,8 @@ for store in _stores:
             pass
         else:
             kf_products.get_products_from_store(store["retailer_id"])
+    except KeyboardInterrupt:
+        sys.exit(1)
     except:
         print("lol i hope this never runs")
         pass
