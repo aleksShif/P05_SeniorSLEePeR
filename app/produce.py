@@ -116,12 +116,16 @@ def check_category(name, store, category):
         return False
 
 def insert_duplicate(produce, product_url, img_url, weight, quantity, price, store, store_id, category):
-    if check_duplicate(produce, store) and not check_category(produce, store, category):
-        update_duplicate_cat(produce, category)
-        # print("insert cat")
-    elif not check_duplicate(produce, store) :
-        # print("insert new")
-        insert_produce(produce, product_url, img_url, weight, quantity, price, store, store_id, category)
+    try:
+        if check_duplicate(produce, store) and not check_category(produce, store, category):
+            update_duplicate_cat(produce, category)
+            # print("insert cat")
+        elif not check_duplicate(produce, store) :
+            # print("insert new")
+            insert_produce(produce, product_url, img_url, weight, quantity, price, store, store_id, category)
+    except:
+        print("oopsies!")
+        pass
 #     elif check_duplicate(produce, store) and check_category(produce, store, category):
 #         print("duplicate found!!")
 # create_produce_table()

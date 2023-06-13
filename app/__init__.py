@@ -108,7 +108,7 @@ def user_stores():
     username = session.get("username")
     zip = get_user_zip(username)
     
-    stores = requests.get(f"http://127.0.0.1:5000/{url_for('store_search')}?zip={zip}").json()
+    stores = requests.get(f"https://tommywolf.me/{url_for('store_search')}?zip={zip}").json()
 
     saved_stores = stores_list.get_stores_from_user(username)
     saved_store_ids = [store["id"] for store in saved_stores]
@@ -206,7 +206,7 @@ def onboarding():
     if get_onboarding_val(username) == 1:
         zip = get_user_zip(username)
         # TODO: CHANGE URL WHEN DEPLOYED
-        stores = requests.get(f"http://127.0.0.1:5000/{url_for('store_search')}?zip={zip}").json()
+        stores = requests.get(f"http://tommywolf.me/{url_for('store_search')}?zip={zip}").json()
 
         resp = requests.get(f"https://api.mapbox.com/geocoding/v5/mapbox.places/{zip}.json?types=postcode&limit=1&access_token={mapbox_token}").json()
         zip_coords = resp["features"][0]["center"]
@@ -295,11 +295,12 @@ def store_search():
     return store_list[:100]
 
 
+@app.route("/api/stores/search.geojson")
 def store_search_geojson():
     zip = request.args.get('zip')
 
     # TODO: CHANGE URL WHEN DEPLOYED
-    stores = requests.get(f"http://127.0.0.1:5000/{url_for('store_search')}?zip={zip}").json()
+    stores = requests.get(f"http://tommywolf.me/{url_for('store_search')}?zip={zip}").json()
 
     features = []
 

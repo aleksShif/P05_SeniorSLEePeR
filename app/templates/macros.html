@@ -7,12 +7,12 @@
         </div>
         <div class="overflow-x-scroll max-w-full mb-4 flex gap-8">
             {% for suggestion in suggestions %}
-            {{catalog_item(suggestion[0], suggestion[3], suggestion[1], suggestion[6], suggestion[7])}}
+            {{catalog_item(suggestion[0], suggestion[3], suggestion[1], suggestion[6], suggestion[7], suggestion[2])}}
             {% endfor %}
             <button 
             onclick="location.href='/catalog/{{category_slug}}'"
             tabindex="-1"
-            class="shrink-0 w-[200px] h-[250px] bg-fern-200 rounded-lg flex flex-col">
+            class="shrink-0 w-[200px] h-[310px] bg-fern-200 rounded-lg flex flex-col">
                 <div class="grow"></div>
                 <div class="w-full">
                     <p class="text-center">
@@ -26,22 +26,24 @@
 {%- endmacro %}
 
 
-{% macro catalog_item(id, image, name, price, retailer) -%}
+{% macro catalog_item(id, image, name, price, retailer, link) -%}
     <div id={{id}} class="p-4 shrink-0 w-[200px] h-[310px]  max-w-[200px] max-h-[310px] bg-fern-200 rounded-lg flex flex-col gap-2 ">
 
         
-        <div class="shrink">
-
-
+        <div class="shrink h-[168px] w-[168px] max-h-[168px] max-w-[168px]">
         {% if retailer == "Key Food" %}
-            <img class="mx-auto rounded-md" height="200px" width="200px" src="https://keyfoodstores.keyfood.com/{{image}}">
+            <img class="mx-auto rounded-md  h-[168px] w-[168px] max-h-[168px] max-w-[168px]" src="https://keyfoodstores.keyfood.com/{{image}}">
+        {% elif retailer == "Wholefoods" %}
+            <img class="mx-auto rounded-md   h-[168px] w-[168px] max-h-[168px] max-w-[168px]" src="{{image}}">
+        {% elif retailer == "Trader Joe's" %}
+            <img class="mx-auto rounded-md    h-[168px] w-[168px] max-h-[168px] max-w-[168px]" src="{{image}}">
         {% endif %}
         </div>
 
         <div class="">
-            <p class="text-lg font-medium truncate">
+            <a class="text-lg  block font-medium truncate" href={{link}}>
             {{name}}
-            </p>
+            </a>
         </div>
         <div>
             {{price}}
