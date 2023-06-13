@@ -84,7 +84,7 @@ def get_total_price(username):
     tups = get_list_tuples_itemprice_quantity_totalprice(username)
     running_tot = 0
     for tup in tups: 
-       running_tot += tup[2]
+       running_tot += float(tup[2])
     return running_tot
 
 # return {store name: number of items, ...}
