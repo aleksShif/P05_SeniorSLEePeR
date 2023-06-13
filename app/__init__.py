@@ -214,7 +214,7 @@ def onboarding():
 @login_required
 def catalog():
     username = session.get("username")
-    stores = [str(store["id"]) for store in stores_list.get_stores_from_user(username)]
+    stores = [str(store["retailer_id"]) for store in stores_list.get_stores_from_user(username)]
     print(stores)
     suggestions = {}
     for x in categories.values():
