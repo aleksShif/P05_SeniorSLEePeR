@@ -146,12 +146,12 @@ def get_ten(category):
     
     return products
 
-def get_all(category):
+def get_all(category, limit, offset):
     DB_FILE="P5.db"
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
 
-    unformatted = c.execute("SELECT * from produce WHERE category = ?", (category,)).fetchall()
+    unformatted = c.execute("SELECT * from produce WHERE category = ? LIMIT ? OFFSET ?;", (category,limit,offset)).fetchall()
     formatted = []
     for i in unformatted:
         formatted.append(i[0])
