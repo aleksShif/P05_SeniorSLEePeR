@@ -215,10 +215,11 @@ def onboarding():
 def catalog():
     username = session.get("username")
     stores = [str(store["retailer_id"]) for store in stores_list.get_stores_from_user(username)]
+    tj = "Trader Joe's" in [str(store["retailer"]) for store in stores_list.get_stores_from_user(username)]
     print(stores)
     suggestions = {}
     for x in categories.values():
-        suggestions[x] = get_ten(x, stores)
+        suggestions[x] = get_ten(x, stores, tj)
 
     print(suggestions)
 

@@ -134,42 +134,59 @@ def insert_duplicate(produce, product_url, img_url, weight, quantity, price, sto
 # insert_duplicate("apple", None, None, None, None, None, "wholefoods", None, "refrigerated")
 # display_produce()
 
-def get_ten(category, stores):
+def get_ten(category, stores, tj):
     DB_FILE="P5.db"
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
     pref = "(\"" + "\",\"".join(stores) + "\")"
     print(pref)
-    return c.execute(f"SELECT * from produce WHERE category = ? AND store_id IN {pref} ORDER BY RANDOM() LIMIT 10", (category,)).fetchall()
+    if tj:
+        return c.execute(f"SELECT * from produce WHERE category = ? AND store_id IN {pref} OR store == 'Trader Joe''s' ORDER BY RANDOM() LIMIT 10", (category,)).fetchall()
+    else:
+        return c.execute(f"SELECT * from produce WHERE category = ? AND store_id IN {pref} ORDER BY RANDOM() LIMIT 10", (category,)).fetchall()
 
-def get_category(category, limit, offset):
+def get_category(category, limit, offset, stores, tj):
     DB_FILE="P5.db"
     offset = offset * limit
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
-    cat = c.execute("SELECT * from produce WHERE category = ? LIMIT ? OFFSET ?;", (category,limit,offset)).fetchall()
-    return cat
+    pref = "(\"" + "\",\"".join(stores) + "\")"
+    if tj:
+        return c.execute(f"SELECT * from produce WHERE category = ?  AND store_id IN {pref} OR store == 'Trader Joe''s' LIMIT ? OFFSET ?;", (category,limit,offset)).fetchall()
+    else:
+        return c.execute(f"SELECT * from produce WHERE category = ?  AND store_id IN {pref} LIMIT ? OFFSET ?;", (category,limit,offset)).fetchall()
 
-def get_all(limit, offset):
+def get_all(limit, offset, stores, tj):
     DB_FILE="P5.db"
     offset = offset * limit
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
-    cat = c.execute("SELECT * from produce LIMIT ? OFFSET ?;", (limit,offset)).fetchall()
-    return cat
+    pref = "(\"" + "\",\"".join(stores) + "\")"
+    if tj:
+        return c.execute(f"SELECT * from produce WHERE store_id IN {pref} OR store == 'Trader Joe''s' LIMIT ? OFFSET ?;", (limit,offset)).fetchall()
+    else:
+        return c.execute(f"SELECT * from produce WHERE store_id IN {pref} LIMIT ? OFFSET ?;", (limit,offset)).fetchall()
 
-def search_category(category, query, limit, offset):
+def search_category(category, query, limit, offset, stores, tj):
     DB_FILE="P5.db"
     offset = offset * limit
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
-    cat = c.execute("SELECT * from produce WHERE category = ? AND product_name LIKE ? LIMIT ? OFFSET ?;", (category, f"%{query}%",limit,offset)).fetchall()
-    return cat
+    pref = "(\"" + "\",\"".join(stores) + "\")"
+    if tj:
+        return c.execute("SELECT * from produce WHERE category = ? AND product_name AND (store_id IN {pref} OR store == 'Trader Joe''s') LIKE ? LIMIT ? OFFSET ?;", (category, f"%{query}%",limit,offset)).fetchall()
+    else:
+        return c.execute("SELECT * from produce WHERE category = ? AND product_name AND (store_id IN {pref}) LIKE ? LIMIT ? OFFSET ?;", (category, f"%{query}%",limit,offset)).fetchall()
 
-def search_all(query, limit, offset):
+def search_all(query, limit, offset, stores, tj):
     DB_FILE="P5.db"
     offset = offset * limit
     db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
     c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
     cat = c.execute("SELECT * from produce WHERE product_name LIKE ? LIMIT ? OFFSET ?;", (f"%{query}%",limit,offset)).fetchall()
-    return cat
+
+    pref = "(\"" + "\",\"".join(stores) + "\")"
+    if tj:
+        return c.execute("SELECT * from produce WHERE product_name AND (store_id IN {pref} OR store == 'Trader Joe''s') LIKE ? LIMIT ? OFFSET ?;", (f"%{query}%",limit,offset)).fetchall()
+    else:
+        return c.execute("SELECT * from produce WHERE product_name AND (store_id IN {pref}) LIKE ? LIMIT ? OFFSET ?;", (f"%{query}%",limit,offset)).fetchall()
